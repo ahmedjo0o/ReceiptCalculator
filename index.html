@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VAT Calculator</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>VAT Calculator</h1>
+        <div id="step1">
+            <label for="num-people">Number of People:</label>
+            <input type="number" id="num-people" min="1" required>
+            <button onclick="goToStep2()">Next</button>
+        </div>
+        <div id="step2" style="display: none;">
+            <form id="names-form">
+                <!-- Names fields will be added dynamically -->
+            </form>
+            <button onclick="goToStep3()">Next</button>
+        </div>
+        <div id="step3" style="display: none;">
+            <label for="total-order">Total Order Value:</label>
+            <input type="number" id="total-order" step="0.01" required>
+            
+            <label for="sub-total">Sub-total Value:</label>
+            <input type="number" id="sub-total" step="0.01" required>
+            <button onclick="goToStep4()">Next</button>
+        </div>
+        <div id="step4" style="display: none;">
+            <table id="order-table">
+                <thead>
+                    <tr>
+                        <!-- Headers will be added dynamically -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Rows will be added dynamically -->
+                </tbody>
+            </table>
+            <button onclick="calculateVAT()">Calculate</button>
+        </div>
+        <div id="result" style="display: none;">
+            <h2>Results</h2>
+            <table id="result-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Order Value</th>
+                        <th>VAT</th>
+                        <th>Total to Pay</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Results will be displayed here -->
+                </tbody>
+            </table>
+            <button onclick="exportPDF()">Export as PDF</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
