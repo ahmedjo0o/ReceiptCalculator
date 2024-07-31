@@ -72,6 +72,8 @@ table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
+    overflow-x: auto;
+    display: block;
 }
 
 th, td {
@@ -107,12 +109,9 @@ tr:nth-child(even) {
         margin-right: 0;
     }
 
-    table, th, td {
-        display: block;
-    }
-
     th, td {
-        width: 100%;
+        display: inline-block;
+        width: auto;
         box-sizing: border-box;
     }
 }
