@@ -1,4 +1,4 @@
-function goToStep2() {
+function generateNames() {
     const numPeople = document.getElementById('num-people').value;
     if (numPeople && numPeople > 0) {
         const namesForm = document.getElementById('names-form');
@@ -13,14 +13,14 @@ function goToStep2() {
             namesForm.appendChild(label);
             namesForm.appendChild(input);
         }
-        document.getElementById('step1').style.display = 'none';
-        document.getElementById('step2').style.display = 'block';
     } else {
         alert('Please enter a valid number of people.');
     }
 }
 
-function goToStep3() {
+function goToStep2() {
+    const totalOrder = document.getElementById('total-order').value;
+    const subTotal = document.getElementById('sub-total').value;
     const nameInputs = document.getElementsByClassName('person-name');
     const names = [];
     for (let input of nameInputs) {
@@ -31,28 +31,18 @@ function goToStep3() {
             return;
         }
     }
-    document.getElementById('step2').style.display = 'none';
-    document.getElementById('step3').style.display = 'block';
-}
 
-function goToStep4() {
-    const totalOrder = document.getElementById('total-order').value;
-    const subTotal = document.getElementById('sub-total').value;
     if (totalOrder && subTotal && parseFloat(totalOrder) >= parseFloat(subTotal)) {
-        const nameInputs = document.getElementsByClassName('person-name');
-        const names = [];
-        for (let input of nameInputs) {
-            names.push(input.value);
-        }
         const thead = document.getElementById('order-table').getElementsByTagName('thead')[0].getElementsByTagName('tr')[0];
-        const tbody = document.getElementById('order-table').getElementsByTagName('tbody')[0];
         thead.innerHTML = '';
-        tbody.innerHTML = '';
         names.forEach(name => {
             const th = document.createElement('th');
             th.innerText = name;
             thead.appendChild(th);
         });
+
+        const tbody = document.getElementById('order-table').getElementsByTagName('tbody')[0];
+        tbody.innerHTML = '';
         for (let i = 0; i < 5; i++) { // Assume max 5 items per person
             const row = tbody.insertRow();
             for (let j = 0; j < names.length; j++) {
@@ -64,11 +54,17 @@ function goToStep4() {
                 cell.appendChild(input);
             }
         }
-        document.getElementById('step3').style.display = 'none';
-        document.getElementById('step4').style.display = 'block';
+
+        document.getElementById('step1').style.display = 'none';
+        document.getElementById('step2').style.display = 'block';
     } else {
         alert('Please enter valid total order and sub-total values.');
     }
+}
+
+function goToStep1() {
+    document.getElementById('step2').style.display = 'none';
+    document.getElementById('step1').style.display = 'block';
 }
 
 function calculateVAT() {
@@ -91,6 +87,12 @@ function calculateVAT() {
         }
     }
     const totalOrderValue = orderTotals.reduce((acc, cur) => acc + cur, 0);
+
+    if (totalOrderValue !== subTotal) {
+        alert('The total value of people\'s orders does not match the sub-total value. Please review your inputs.');
+        return;
+    }
+
     const resultTable = document.getElementById('result-table').getElementsByTagName('tbody')[0];
     resultTable.innerHTML = '';
     orderTotals.forEach((orderValue, index) => {
@@ -103,8 +105,20 @@ function calculateVAT() {
         row.insertCell(2).innerText = vatShare.toFixed(2);
         row.insertCell(3).innerText = totalToPay.toFixed(2);
     });
-    document.getElementById('step4').style.display = 'none';
+    document.getElementById('step2').style.display = 'none';
     document.getElementById('result').style.display = 'block';
+}
+
+function startAgain() {
+    document.getElementById('num-people').value = '';
+    document.getElementById('total-order').value = '';
+    document.getElementById('sub-total').value = '';
+    document.getElementById('names-form').innerHTML = '';
+    document.getElementById('order-table').getElementsByTagName('thead')[0].getElementsByTagName('tr')[0].innerHTML = '';
+    document.getElementById('order-table').getElementsByTagName('tbody')[0].innerHTML = '';
+    document.getElementById('result-table').getElementsByTagName('tbody')[0].innerHTML = '';
+    document.getElementById('result').style.display = 'none';
+    document.getElementById('step1').style.display = 'block';
 }
 
 function exportPDF() {
