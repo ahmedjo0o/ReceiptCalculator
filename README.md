@@ -1,43 +1,63 @@
-Receipt Calculator App
+Receipt VAT Calculator Application
+Overview
+The VAT Calculator Application is a web-based tool designed to calculate Value-Added Tax (VAT) for multiple individuals based on their order values. The application features a user-friendly interface with a modern, soft glassy design, and provides functionalities for calculating and exporting results in PDF format.
 
-This Receipt Calculator App helps to calculate the VAT of a restaurant or cafe receipt and distribute this value to people based on the percentage of their order. The app supports both English and Arabic languages and provides an option to export the results as a PDF.
 Features
-
-    Language selection: English and Arabic
-    Input number of people
-    Input names of each person
-    Input total order value and sub-total value to calculate VAT
-    Input individual order values
-    Calculate VAT distribution based on order percentages
-    Display the amount each person should pay
-    Export results as a PDF
-    Option to calculate again
-
+Input the number of people and their order values.
+Calculate the VAT and display the results.
+Export results as a PDF.
+Responsive design with a modern, soft glassy look.
+Includes icons for better user experience.
+Footer with a link to the developer's Facebook profile.
 Technologies Used
+HTML5
+CSS3
+JavaScript
+Font Awesome (for icons)
+jsPDF (for PDF generation)
+Setup and Installation
 
-    HTML
-    CSS
-    JavaScript
-    jsPDF for PDF export
+Open the application:
+Open index.html in your preferred web browser to use the VAT Calculator Application.
 
-Setup and Usage
+Usage
+Enter the number of people:
 
-    Clone the repository or download the files.
+Input the number of people for whom you want to calculate VAT.
+Click "Go" to generate name input fields.
+Enter order values:
 
-    Open index.html in your preferred web browser.
+Input the total order value and sub-total value.
+Enter individual order values for each person.
+Calculate VAT:
 
-    Select the desired language and click Start.
+Click "Next" to proceed to the calculation step.
+Click "Calculate" to compute the VAT and display the results.
+Export results:
 
-    Enter the number of people and click Next.
+Click "Export as PDF" to save the results as a PDF file.
+Click "Start Again" to reset the calculator and start a new calculation.
+Files
+index.html: Main HTML file containing the structure of the application.
+styles.css: CSS file for styling the application with a modern, soft glassy look.
+script.js: JavaScript file containing the logic for the VAT calculation and PDF export.
+favicon.ico: (Optional) Favicon file for the website icon.
+Footer
+The application includes a footer with a link to the developer's Facebook profile.
 
-    Enter the names of each person and click Next.
+html
+Copy code
+<footer>
+    <p>All rights reserved - <a href="https://facebook.com/ahmed.joo" target="_blank">Ahmed Youssef Joe</a></p>
+</footer>
+Contributing
+Contributions are welcome! If you have any suggestions or improvements, please create a pull request or open an issue in the repository.
 
-    Enter the total order value and sub-total value, then click Next.
+License
+This project is licensed under the MIT License - see the LICENSE file for details.
 
-    Enter the individual order values for each person.
+Contact
+For any inquiries or support, please contact:
 
-    Click Calculate to see the results.
-
-    Click Export as PDF to download the results as a PDF file.
-
-    To calculate again, click Calculate Again.
+Name: Ahmed Youssef Joe
+Facebook: Ahmed Youssef Joe
