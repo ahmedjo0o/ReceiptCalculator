@@ -4,14 +4,17 @@ function generateNames() {
         const namesForm = document.getElementById('names-form');
         namesForm.innerHTML = '';
         for (let i = 0; i < numPeople; i++) {
+            const nameGroup = document.createElement('div');
+            nameGroup.classList.add('name-input-group');
             const label = document.createElement('label');
             label.innerText = `Name ${i + 1}:`;
             const input = document.createElement('input');
             input.type = 'text';
             input.required = true;
             input.classList.add('person-name');
-            namesForm.appendChild(label);
-            namesForm.appendChild(input);
+            nameGroup.appendChild(label);
+            nameGroup.appendChild(input);
+            namesForm.appendChild(nameGroup);
         }
     } else {
         alert('Please enter a valid number of people.');
@@ -40,39 +43,50 @@ function goToStep2() {
             card.classList.add('card');
             card.innerHTML = `
                 <div class="card-header">${name}</div>
-                <div class="card-content">
-                    <span>Order Value 1:</span>
-                    <input type="number" class="order-value" step="0.01" required>
+                <div class="card-content-container">
+                    <div class="card-content">
+                        <span>Order Value 1:</span>
+                        <input type="number" class="order-value" step="0.01" required>
+                    </div>
                 </div>
-                <div class="card-content">
-                    <span>Order Value 2:</span>
-                    <input type="number" class="order-value" step="0.01" required>
-                </div>
-                <div class="card-content">
-                    <span>Order Value 3:</span>
-                    <input type="number" class="order-value" step="0.01" required>
-                </div>
-                <div class="card-content">
-                    <span>Order Value 4:</span>
-                    <input type="number" class="order-value" step="0.01" required>
-                </div>
-                <div class="card-content">
-                    <span>Order Value 5:</span>
-                    <input type="number" class="order-value" step="0.01" required>
+                <div class="card-controls">
+                    <button onclick="addOrderValue(this)">+</button>
+                    <button onclick="removeOrderValue(this)">-</button>
                 </div>
             `;
             cardsContainer.appendChild(card);
         });
 
         document.getElementById('step1').style.display = 'none';
+        document.getElementById('result').style.display = 'none';
         document.getElementById('step2').style.display = 'block';
     } else {
         alert('Please enter valid total order and sub-total values.');
     }
 }
 
+function addOrderValue(button) {
+    const cardContentContainer = button.closest('.card').querySelector('.card-content-container');
+    const orderValuesCount = cardContentContainer.children.length + 1;
+    const newContent = document.createElement('div');
+    newContent.classList.add('card-content');
+    newContent.innerHTML = `
+        <span>Order Value ${orderValuesCount}:</span>
+        <input type="number" class="order-value" step="0.01" required>
+    `;
+    cardContentContainer.appendChild(newContent);
+}
+
+function removeOrderValue(button) {
+    const cardContentContainer = button.closest('.card').querySelector('.card-content-container');
+    if (cardContentContainer.children.length > 1) {
+        cardContentContainer.removeChild(cardContentContainer.lastChild);
+    }
+}
+
 function goToStep1() {
     document.getElementById('step2').style.display = 'none';
+    document.getElementById('result').style.display = 'none';
     document.getElementById('step1').style.display = 'block';
 }
 
@@ -129,4 +143,18 @@ function startAgain() {
     document.getElementById('result-cards-container').innerHTML = '';
     document.getElementById('result').style.display = 'none';
     document.getElementById('step1').style.display = 'block';
+}
+
+function openFacebook(event) {
+    event.preventDefault();
+    const facebookAppUrl = "fb://profile/ahmed.joo";
+    const facebookWebUrl = "https://facebook.com/ahmed.joo";
+
+    // Attempt to open the Facebook app
+    window.location.href = facebookAppUrl;
+
+    // If the Facebook app is not installed, fall back to the web URL
+    setTimeout(() => {
+        window.location.href = facebookWebUrl;
+    }, 1000);
 }
