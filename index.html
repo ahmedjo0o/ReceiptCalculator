@@ -16,7 +16,7 @@
             <label for="num-people"><i class="fas fa-users"></i> Number of People:</label>
             <input type="number" id="num-people" min="1" required>
             <button onclick="generateNames()">Go</button>
-            <form id="names-form">
+            <form id="names-form" class="names-container">
                 <!-- Names fields will be added dynamically -->
             </form>
             <label for="total-order"><i class="fas fa-money-bill-wave"></i> Total Order Value:</label>
@@ -42,7 +42,7 @@
         </div>
     </div>
     <footer>
-        <p>All rights reserved - <a href="https://facebook.com/ahmed.joo" target="_blank">Ahmed Youssef Joe</a></p>
+        <p>All rights reserved © <a href="https://facebook.com/ahmed.joo" target="_blank" onclick="openFacebook(event)">Ahmed Youssef</a></p>
     </footer>
     <script src="script.js"></script>
 </body>
