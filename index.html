@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VAT Calculator</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="icon" href="favicon.png" type="image/x-icon">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
 </head>
 <body>
     <div class="container">
@@ -26,40 +26,44 @@
             <button onclick="goToStep2()">Next</button>
         </div>
         <div id="step2" style="display: none;">
-            <table id="order-table">
-                <thead>
-                    <tr>
-                        <!-- Headers will be added dynamically -->
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Rows will be added dynamically -->
-                </tbody>
-            </table>
+            <div class="table-container">
+                <table id="order-table">
+                    <thead>
+                        <tr>
+                            <!-- Headers will be added dynamically -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Rows will be added dynamically -->
+                    </tbody>
+                </table>
+            </div>
             <button onclick="goToStep1()">Back</button>
             <button onclick="calculateVAT()">Calculate</button>
         </div>
         <div id="result" style="display: none;">
             <h2><i class="fas fa-check-circle"></i> Results</h2>
-            <table id="result-table">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Order Value</th>
-                        <th>VAT</th>
-                        <th>Total to Pay</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Results will be displayed here -->
-                </tbody>
-            </table>
+            <div class="table-container">
+                <table id="result-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Order Value</th>
+                            <th>VAT</th>
+                            <th>Total to Pay</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Results will be displayed here -->
+                    </tbody>
+                </table>
+            </div>
             <button onclick="exportPDF()">Export as PDF</button>
             <button onclick="startAgain()">Start Again</button>
         </div>
     </div>
-<footer>
-        <p>All rights reserved © <a href="https://facebook.com/ahmed.joo" target="_blank">Ahmed Youssef Joe</a></p>
+    <footer>
+        <p>All rights reserved - <a href="https://facebook.com/ahmed.joo" target="_blank">Ahmed Youssef Joe</a></p>
     </footer>
     <script src="script.js"></script>
 </body>
