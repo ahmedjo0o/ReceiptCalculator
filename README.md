@@ -25,31 +25,26 @@ Enter the number of people:
 
 Input the number of people for whom you want to calculate VAT.
 Click "Go" to generate name input fields.
-Enter order values:
 
+Enter order values:
 Input the total order value and sub-total value.
 Enter individual order values for each person.
-Calculate VAT:
 
+Calculate VAT:
 Click "Next" to proceed to the calculation step.
 Click "Calculate" to compute the VAT and display the results.
 Export results:
-
-Click "Export as PDF" to save the results as a PDF file.
 Click "Start Again" to reset the calculator and start a new calculation.
+
 Files
 index.html: Main HTML file containing the structure of the application.
 styles.css: CSS file for styling the application with a modern, soft glassy look.
 script.js: JavaScript file containing the logic for the VAT calculation and PDF export.
 favicon.ico: (Optional) Favicon file for the website icon.
+
 Footer
 The application includes a footer with a link to the developer's Facebook profile.
 
-html
-Copy code
-<footer>
-    <p>All rights reserved - <a href="https://facebook.com/ahmed.joo" target="_blank">Ahmed Youssef</a></p>
-</footer>
 Contributing
 Contributions are welcome! If you have any suggestions or improvements, please create a pull request or open an issue in the repository.
 
