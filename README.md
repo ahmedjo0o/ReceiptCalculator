@@ -48,7 +48,7 @@ The application includes a footer with a link to the developer's Facebook profil
 html
 Copy code
 <footer>
-    <p>All rights reserved - <a href="https://facebook.com/ahmed.joo" target="_blank">Ahmed Youssef Joe</a></p>
+    <p>All rights reserved - <a href="https://facebook.com/ahmed.joo" target="_blank">Ahmed Youssef</a></p>
 </footer>
 Contributing
 Contributions are welcome! If you have any suggestions or improvements, please create a pull request or open an issue in the repository.
