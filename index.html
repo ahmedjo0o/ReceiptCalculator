@@ -13,23 +13,36 @@
     <div class="container">
         <h1>VAT Calculator</h1>
         <div id="step1">
-            <label for="num-people"><i class="fas fa-users"></i> Number of People:</label>
-            <input type="number" id="num-people" min="1" required>
+            <div class="input-group">
+                <label for="num-people"><i class="fas fa-users"></i> Number of People:</label>
+                <input type="number" id="num-people" min="1" required>
+                <span id="num-people-error" class="error-message">Please fill this field</span>
+            </div>
             <button onclick="generateNames()">Go</button>
             <form id="names-form" class="names-container">
                 <!-- Names fields will be added dynamically -->
             </form>
-            <label for="total-order"><i class="fas fa-money-bill-wave"></i> Total Order Value:</label>
-            <input type="number" id="total-order" step="0.01" required>
-            <label for="sub-total"><i class="fas fa-receipt"></i> Sub-total Value:</label>
-            <input type="number" id="sub-total" step="0.01" required>
-            <button onclick="goToStep2()">Next</button>
+            <button id="next-button" onclick="goToStep2FromStep1()" style="display: none;">Next</button>
         </div>
         <div id="step2" style="display: none;">
+            <div class="input-group">
+                <label for="total-order"><i class="fas fa-money-bill-wave"></i> Total Order Value:</label>
+                <input type="number" id="total-order" step="0.01" required>
+                <span id="total-order-error" class="error-message">Please fill this field</span>
+            </div>
+            <div class="input-group">
+                <label for="sub-total"><i class="fas fa-receipt"></i> Sub-total Value:</label>
+                <input type="number" id="sub-total" step="0.01" required>
+                <span id="sub-total-error" class="error-message">Please fill this field</span>
+            </div>
+            <button onclick="goToStep1FromStep2()">Back</button>
+            <button onclick="goToStep3()">Next</button>
+        </div>
+        <div id="step3" style="display: none;">
             <div id="cards-container" class="cards-container">
                 <!-- Cards will be added dynamically -->
             </div>
-            <button onclick="goToStep1()">Back</button>
+            <button onclick="goToStep2FromStep3()">Back</button>
             <button onclick="calculateVAT()">Calculate</button>
         </div>
         <div id="result" style="display: none;">
@@ -37,7 +50,7 @@
             <div id="result-cards-container" class="result-cards-container">
                 <!-- Result cards will be displayed here -->
             </div>
-            <button onclick="goToStep2()">Back</button>
+            <button onclick="goToStep3FromResults()">Back</button>
             <button onclick="startAgain()">Start Again</button>
         </div>
     </div>
