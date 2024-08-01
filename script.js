@@ -1,6 +1,8 @@
 function generateNames() {
     const numPeople = document.getElementById('num-people').value;
     if (numPeople && numPeople > 0) {
+        document.getElementById('num-people-error').style.display = 'none';
+        document.getElementById('num-people').classList.remove('error');
         const namesForm = document.getElementById('names-form');
         namesForm.innerHTML = '';
         for (let i = 0; i < numPeople; i++) {
@@ -12,30 +14,83 @@ function generateNames() {
             input.type = 'text';
             input.required = true;
             input.classList.add('person-name');
+            const errorMessage = document.createElement('span');
+            errorMessage.classList.add('error-message');
+            errorMessage.innerText = 'Please fill this field';
             nameGroup.appendChild(label);
             nameGroup.appendChild(input);
+            nameGroup.appendChild(errorMessage);
             namesForm.appendChild(nameGroup);
         }
+        document.getElementById('next-button').style.display = 'block';
     } else {
-        alert('Please enter a valid number of people.');
+        document.getElementById('num-people-error').style.display = 'block';
+        document.getElementById('num-people').classList.add('error');
     }
 }
 
-function goToStep2() {
-    const totalOrder = document.getElementById('total-order').value;
-    const subTotal = document.getElementById('sub-total').value;
+function goToStep2FromStep1() {
     const nameInputs = document.getElementsByClassName('person-name');
-    const names = [];
+    let allFilled = true;
     for (let input of nameInputs) {
-        if (input.value) {
-            names.push(input.value);
+        const errorMessage = input.nextElementSibling;
+        if (input.value.trim() === '') {
+            input.classList.add('error');
+            errorMessage.style.display = 'block';
+            allFilled = false;
         } else {
-            alert('Please enter all names.');
-            return;
+            input.classList.remove('error');
+            errorMessage.style.display = 'none';
         }
     }
 
-    if (totalOrder && subTotal && parseFloat(totalOrder) >= parseFloat(subTotal)) {
+    if (allFilled) {
+        document.getElementById('step1').style.display = 'none';
+        document.getElementById('step2').style.display = 'block';
+    }
+}
+
+function goToStep1FromStep2() {
+    document.getElementById('step2').style.display = 'none';
+    document.getElementById('step1').style.display = 'block';
+}
+
+function goToStep3() {
+    const totalOrder = document.getElementById('total-order').value;
+    const subTotal = document.getElementById('sub-total').value;
+
+    let allFilled = true;
+
+    if (totalOrder.trim() === '') {
+        document.getElementById('total-order').classList.add('error');
+        document.getElementById('total-order-error').style.display = 'block';
+        allFilled = false;
+    } else {
+        document.getElementById('total-order').classList.remove('error');
+        document.getElementById('total-order-error').style.display = 'none';
+    }
+
+    if (subTotal.trim() === '') {
+        document.getElementById('sub-total').classList.add('error');
+        document.getElementById('sub-total-error').style.display = 'block';
+        allFilled = false;
+    } else {
+        document.getElementById('sub-total').classList.remove('error');
+        document.getElementById('sub-total-error').style.display = 'none';
+    }
+
+    if (allFilled && parseFloat(totalOrder) >= parseFloat(subTotal)) {
+        document.getElementById('step2').style.display = 'none';
+        document.getElementById('step3').style.display = 'block';
+
+        const nameInputs = document.getElementsByClassName('person-name');
+        const names = [];
+        for (let input of nameInputs) {
+            if (input.value) {
+                names.push(input.value);
+            }
+        }
+
         const cardsContainer = document.getElementById('cards-container');
         cardsContainer.innerHTML = '';
         names.forEach(name => {
@@ -56,13 +111,19 @@ function goToStep2() {
             `;
             cardsContainer.appendChild(card);
         });
-
-        document.getElementById('step1').style.display = 'none';
-        document.getElementById('result').style.display = 'none';
-        document.getElementById('step2').style.display = 'block';
-    } else {
+    } else if (allFilled) {
         alert('Please enter valid total order and sub-total values.');
     }
+}
+
+function goToStep2FromStep3() {
+    document.getElementById('step3').style.display = 'none';
+    document.getElementById('step2').style.display = 'block';
+}
+
+function goToStep3FromResults() {
+    document.getElementById('result').style.display = 'none';
+    document.getElementById('step3').style.display = 'block';
 }
 
 function addOrderValue(button) {
@@ -84,12 +145,6 @@ function removeOrderValue(button) {
     }
 }
 
-function goToStep1() {
-    document.getElementById('step2').style.display = 'none';
-    document.getElementById('result').style.display = 'none';
-    document.getElementById('step1').style.display = 'block';
-}
-
 function calculateVAT() {
     const totalOrder = parseFloat(document.getElementById('total-order').value);
     const subTotal = parseFloat(document.getElementById('sub-total').value);
@@ -103,8 +158,9 @@ function calculateVAT() {
 
     const orderTotals = orderValues.map(values => values.reduce((acc, cur) => acc + cur, 0));
     const totalOrderValue = orderTotals.reduce((acc, cur) => acc + cur, 0);
-    if (totalOrderValue !== subTotal) {
-        alert('The total value of people\'s orders does not match the sub-total value. Please review your inputs.');
+
+    if (Math.abs(totalOrderValue - subTotal) > 2) {
+        alert('Order values do not match the sub-total. Please check your inputs.');
         return;
     }
 
@@ -113,7 +169,7 @@ function calculateVAT() {
     orderTotals.forEach((orderValue, index) => {
         const percentage = orderValue / totalOrderValue;
         const vatShare = percentage * vat;
-        const totalToPay = orderValue + vatShare;
+        const totalToPay = Math.round(orderValue + vatShare);
         const card = document.createElement('div');
         card.classList.add('card');
         card.innerHTML = `
@@ -124,13 +180,13 @@ function calculateVAT() {
             <div class="card-content">
                 <span>VAT:</span> ${vatShare.toFixed(2)}
             </div>
-            <div class="card-content">
+            <div class="card-content total-to-pay">
                 <span>Total to Pay:</span> ${totalToPay.toFixed(2)}
             </div>
         `;
         resultCardsContainer.appendChild(card);
     });
-    document.getElementById('step2').style.display = 'none';
+    document.getElementById('step3').style.display = 'none';
     document.getElementById('result').style.display = 'block';
 }
 
@@ -143,6 +199,7 @@ function startAgain() {
     document.getElementById('result-cards-container').innerHTML = '';
     document.getElementById('result').style.display = 'none';
     document.getElementById('step1').style.display = 'block';
+    document.getElementById('next-button').style.display = 'none';
 }
 
 function openFacebook(event) {
