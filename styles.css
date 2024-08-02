@@ -25,10 +25,26 @@ body {
     border: 1px solid rgba(255, 255, 255, 0.18);
 }
 
-h1 {
-    color: #333;
+#language-selection {
     text-align: center;
-    font-weight: 300;
+    margin-bottom: 20px;
+}
+
+#language-selection button {
+    margin: 10px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.3);
+    color: #333;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#language-selection button:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-2px);
 }
 
 /* Form styles */
@@ -140,7 +156,7 @@ button:hover {
     }
     
     .card {
-        padding: 40px; /* Increase padding for better readability on larger screens */
+        padding: 20px; /* Increase padding for better readability on larger screens */
     }
 }
 

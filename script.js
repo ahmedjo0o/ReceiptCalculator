@@ -1,3 +1,83 @@
+const translations = {
+    en: {
+        appTitle: 'Receipt Split Calculator',
+        selectLanguage: 'Select Language',
+        numPeople: 'Number of People:',
+        totalOrder: 'Total Order Value:',
+        subTotal: 'Sub-total Value:',
+        generateNamesButton: 'Go',
+        nextButton: 'Next',
+        backButton: 'Back',
+        calculateButton: 'Calculate',
+        startAgainButton: 'Start Again',
+        resultsTitle: 'Results',
+        numPeopleError: 'Please fill this field',
+        totalOrderError: 'Please fill this field',
+        subTotalError: 'Please fill this field',
+		nameLabel: 'Name',
+		nameError: 'Please fill this field',
+		mismatchError: 'Order values do not match the sub-total. Please check your inputs.',
+		orderValueLabel: 'Order Value',
+		orderValueLabel2: 'Order',
+        vatLabel: 'VAT',
+        totalToPayLabel: 'Total to Pay',
+        footerText: 'All rights reserved ©'
+    },
+    ar: {
+        appTitle: 'احسب فاتورتك مع صحابك',
+        selectLanguage: 'اختر اللغة',
+        numPeople: 'عدد الأشخاص:',
+        totalOrder: 'قيمة الفاتورة:',
+        subTotal: 'قيمة الطلبات بدون ضريبة:',
+        generateNamesButton: 'ابدأ',
+        nextButton: 'التالي',
+        backButton: 'السابق',
+        calculateButton: 'احسب',
+        startAgainButton: 'احسب مرة اخرى',
+        resultsTitle: 'النتائج',
+        numPeopleError: 'يرجى ملء هذا الحقل',
+        totalOrderError: 'يرجى ملء هذا الحقل',
+        subTotalError: 'يرجى ملء هذا الحقل',
+		nameLabel: 'اسم',
+		nameError: 'يرجى ملء هذا الحقل',
+		mismatchError: 'قيمة الطلبات لا تتطابق مع الإجمالي. يرجى التحقق من إدخالاتك.',
+		orderValueLabel: 'قيمة طلباتك',
+		orderValueLabel2: 'قيمة طلب',
+        vatLabel: 'ضريبة طلباتك',
+        totalToPayLabel: 'إجمالي',
+        footerText: 'جميع الحقوق محفوظة ©'
+    }
+};
+
+let currentLanguage = 'en';
+
+function setLanguage(language) {
+    currentLanguage = language;
+    document.getElementById('app-title').innerText = translations[language].appTitle;
+    document.getElementById('label-num-people').innerText = translations[language].numPeople;
+    document.getElementById('label-total-order').innerText = translations[language].totalOrder;
+    document.getElementById('label-sub-total').innerText = translations[language].subTotal;
+    document.getElementById('generate-names-button').innerText = translations[language].generateNamesButton;
+    document.getElementById('next-button').innerText = translations[language].nextButton;
+    document.getElementById('back-to-step1-button').innerText = translations[language].backButton;
+    document.getElementById('next-to-step3-button').innerText = translations[language].nextButton;
+    document.getElementById('back-to-step2-button').innerText = translations[language].backButton;
+    document.getElementById('calculate-button').innerText = translations[language].calculateButton;
+    document.getElementById('back-to-step3-button').innerText = translations[language].backButton;
+    document.getElementById('start-again-button').innerText = translations[language].startAgainButton;
+    document.getElementById('results-title').innerText = translations[language].resultsTitle;
+    document.getElementById('num-people-error').innerText = translations[language].numPeopleError;
+    document.getElementById('total-order-error').innerText = translations[language].totalOrderError;
+    document.getElementById('sub-total-error').innerText = translations[language].subTotalError;
+    document.getElementById('footer-text').innerText = translations[language].footerText;
+}
+
+function selectLanguage(language) {
+    setLanguage(language);
+    document.getElementById('language-selection').style.display = 'none';
+    document.getElementById('app-content').style.display = 'block';
+}
+
 function generateNames() {
     const numPeople = document.getElementById('num-people').value;
     if (numPeople && numPeople > 0) {
@@ -9,14 +89,14 @@ function generateNames() {
             const nameGroup = document.createElement('div');
             nameGroup.classList.add('name-input-group');
             const label = document.createElement('label');
-            label.innerText = `Name ${i + 1}:`;
+            label.innerText = `${translations[currentLanguage].nameLabel} ${i + 1}:`;
             const input = document.createElement('input');
             input.type = 'text';
             input.required = true;
             input.classList.add('person-name');
             const errorMessage = document.createElement('span');
             errorMessage.classList.add('error-message');
-            errorMessage.innerText = 'Please fill this field';
+            errorMessage.innerText = translations[currentLanguage].nameError;
             nameGroup.appendChild(label);
             nameGroup.appendChild(input);
             nameGroup.appendChild(errorMessage);
@@ -100,7 +180,7 @@ function goToStep3() {
                 <div class="card-header">${name}</div>
                 <div class="card-content-container">
                     <div class="card-content">
-                        <span>Order Value 1:</span>
+                        <span>${translations[currentLanguage].orderValueLabel2} 1:</span>
                         <input type="number" class="order-value" step="0.01" required>
                     </div>
                 </div>
@@ -132,7 +212,7 @@ function addOrderValue(button) {
     const newContent = document.createElement('div');
     newContent.classList.add('card-content');
     newContent.innerHTML = `
-        <span>Order Value ${orderValuesCount}:</span>
+        <span>${translations[currentLanguage].orderValueLabel2} ${orderValuesCount}:</span>
         <input type="number" class="order-value" step="0.01" required>
     `;
     cardContentContainer.appendChild(newContent);
@@ -160,7 +240,7 @@ function calculateVAT() {
     const totalOrderValue = orderTotals.reduce((acc, cur) => acc + cur, 0);
 
     if (Math.abs(totalOrderValue - subTotal) > 2) {
-        alert('Order values do not match the sub-total. Please check your inputs.');
+        alert(translations[currentLanguage].mismatchError);
         return;
     }
 
@@ -175,13 +255,13 @@ function calculateVAT() {
         card.innerHTML = `
             <div class="card-header">${names[index]}</div>
             <div class="card-content">
-                <span>Order Value:</span> ${orderValue.toFixed(2)}
+                <span>${translations[currentLanguage].orderValueLabel}:</span> ${orderValue.toFixed(2)}
             </div>
             <div class="card-content">
-                <span>VAT:</span> ${vatShare.toFixed(2)}
+                <span>${translations[currentLanguage].vatLabel}:</span> ${vatShare.toFixed(2)}
             </div>
             <div class="card-content total-to-pay">
-                <span>Total to Pay:</span> ${totalToPay.toFixed(2)}
+                <span>${translations[currentLanguage].totalToPayLabel}:</span> ${totalToPay.toFixed(2)}
             </div>
         `;
         resultCardsContainer.appendChild(card);
