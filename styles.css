@@ -185,6 +185,67 @@ button:hover {
     }
 }
 
+/* تحسينات عامة للهواتف */
+@media (max-width: 480px) {
+    .container {
+        width: 100%;
+        padding: 10px;
+        margin: 10px auto;
+        border-radius: 0;
+    }
+
+    input[type="number"], 
+    input[type="text"] {
+        font-size: 16px; /* منع التكبير التلقائي في iOS */
+        padding: 10px;
+    }
+
+    button {
+        padding: 12px;
+        font-size: 14px;
+    }
+
+    .card {
+        margin: 8px 0;
+        padding: 8px;
+    }
+
+    .card-header {
+        font-size: 1.1em;
+    }
+
+    .card-content {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .card-controls button {
+        width: 35px;
+        height: 35px;
+    }
+
+    /* إصلاح التخطيط في خطوة إضافة الأسماء */
+    .name-input-group {
+        margin: 8px 0;
+    }
+
+    .name-input-group label {
+        font-size: 14px;
+    }
+}
+
+/* إصلاح خاص لشاشات صغيرة جدًا */
+@media (max-width: 360px) {
+    #language-selection button {
+        margin: 5px;
+        padding: 8px 12px;
+    }
+
+    .card-subtotal {
+        font-size: 14px;
+    }
+}
+
 /* Footer styles */
 footer {
     text-align: center;
