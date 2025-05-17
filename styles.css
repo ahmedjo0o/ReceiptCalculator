@@ -184,10 +184,20 @@ footer {
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-top: 1px solid rgba(255, 255, 255, 0.18);
-    position: relative; /* تغيير من fixed إلى relative */
-    margin-top: 30px; /* مسافة فوق الفوتر */
-    width: 100%;
+    
+    /* التعديلات الجديدة */
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
 }
+
+.container {
+    /* ... الإعدادات الحالية ... */
+    margin-bottom: 80px; /* إضافة هذه السطر */
+}
+
 
 footer p {
     margin: 0;
