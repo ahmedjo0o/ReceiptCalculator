@@ -14,14 +14,18 @@ const translations = {
         numPeopleError: 'Please fill this field',
         totalOrderError: 'Please fill this field',
         subTotalError: 'Please fill this field',
-		nameLabel: 'Name',
-		nameError: 'Please fill this field',
-		mismatchError: 'Order values do not match the sub-total. Please check your inputs.',
-		orderValueLabel: 'Order Value',
-		orderValueLabel2: 'Order',
+        nameLabel: 'Name',
+        nameError: 'Please fill this field',
+        mismatchError: 'Order values do not match the sub-total. Please check your inputs.',
+        orderValueLabel: 'Order Subtotal',
+        orderValueLabel2: 'Order',
         vatLabel: 'VAT',
         totalToPayLabel: 'Total to Pay',
-        footerText: 'All rights reserved ©'
+        footerText: 'All rights reserved ©',
+        mismatchAlert: 'Subtotal mismatch detected',
+        confirmReset: 'Are you sure you want to reset?',
+        shareResult: 'Share',
+        saveAllResults: 'Save All as Image'
     },
     ar: {
         appTitle: 'احسب فاتورتك مع صحابك',
@@ -33,26 +37,32 @@ const translations = {
         nextButton: 'التالي',
         backButton: 'السابق',
         calculateButton: 'احسب',
-        startAgainButton: 'احسب مرة اخرى',
+        startAgainButton: 'البدء من جديد',
         resultsTitle: 'النتائج',
         numPeopleError: 'يرجى ملء هذا الحقل',
         totalOrderError: 'يرجى ملء هذا الحقل',
         subTotalError: 'يرجى ملء هذا الحقل',
-		nameLabel: 'اسم',
-		nameError: 'يرجى ملء هذا الحقل',
-		mismatchError: 'قيمة الطلبات لا تتطابق مع الإجمالي. يرجى التحقق من إدخالاتك.',
-		orderValueLabel: 'قيمة طلباتك',
-		orderValueLabel2: 'قيمة طلب',
-        vatLabel: 'ضريبة طلباتك',
-        totalToPayLabel: 'إجمالي',
-        footerText: 'جميع الحقوق محفوظة ©'
+        nameLabel: 'اسم',
+        nameError: 'يرجى ملء هذا الحقل',
+        mismatchError: 'قيمة الطلبات لا تتطابق مع الإجمالي. يرجى التحقق من إدخالاتك.',
+        orderValueLabel: 'مجموع الطلبات',
+        orderValueLabel2: 'طلب',
+        vatLabel: 'الضريبة',
+        totalToPayLabel: 'الإجمالي',
+        footerText: 'جميع الحقوق محفوظة ©',
+        mismatchAlert: 'الفرق كبير بين المجموع والقيمة الفرعية',
+        confirmReset: 'هل تريد البدء من جديد؟',
+        shareResult: 'مشاركة',
+        saveAllResults: 'حفظ الكل كصورة'
     }
 };
 
-let currentLanguage = 'en';
+let currentLanguage = 'ar';
 
 function setLanguage(language) {
     currentLanguage = language;
+    document.documentElement.lang = language;
+    document.documentElement.dir = language === 'ar' ? 'rtl' : 'ltr';
     document.getElementById('app-title').innerText = translations[language].appTitle;
     document.getElementById('label-num-people').innerText = translations[language].numPeople;
     document.getElementById('label-total-order').innerText = translations[language].totalOrder;
@@ -70,6 +80,7 @@ function setLanguage(language) {
     document.getElementById('total-order-error').innerText = translations[language].totalOrderError;
     document.getElementById('sub-total-error').innerText = translations[language].subTotalError;
     document.getElementById('footer-text').innerText = translations[language].footerText;
+    document.getElementById('button-save-all').innerText = translations[language].saveAllResults;
 }
 
 function selectLanguage(language) {
@@ -135,10 +146,15 @@ function goToStep1FromStep2() {
     document.getElementById('step1').style.display = 'block';
 }
 
+function goToStep2FromStep3() {
+    document.getElementById('step3').style.display = 'none';
+    document.getElementById('step2').style.display = 'block';
+    document.getElementById('mismatch-alert').style.display = 'none';
+}
+
 function goToStep3() {
     const totalOrder = document.getElementById('total-order').value;
     const subTotal = document.getElementById('sub-total').value;
-
     let allFilled = true;
 
     if (totalOrder.trim() === '') {
@@ -162,13 +178,12 @@ function goToStep3() {
     if (allFilled && parseFloat(totalOrder) >= parseFloat(subTotal)) {
         document.getElementById('step2').style.display = 'none';
         document.getElementById('step3').style.display = 'block';
+        document.getElementById('mismatch-alert').style.display = 'none';
 
         const nameInputs = document.getElementsByClassName('person-name');
         const names = [];
         for (let input of nameInputs) {
-            if (input.value) {
-                names.push(input.value);
-            }
+            names.push(input.value);
         }
 
         const cardsContainer = document.getElementById('cards-container');
@@ -178,6 +193,7 @@ function goToStep3() {
             card.classList.add('card');
             card.innerHTML = `
                 <div class="card-header">${name}</div>
+                <div class="card-subtotal">${translations[currentLanguage].orderValueLabel}: 0.00</div>
                 <div class="card-content-container">
                     <div class="card-content">
                         <span>${translations[currentLanguage].orderValueLabel2} 1:</span>
@@ -192,18 +208,9 @@ function goToStep3() {
             cardsContainer.appendChild(card);
         });
     } else if (allFilled) {
-        alert('Please enter valid total order and sub-total values.');
+        document.getElementById('mismatch-alert').textContent = translations[currentLanguage].mismatchAlert;
+        document.getElementById('mismatch-alert').style.display = 'block';
     }
-}
-
-function goToStep2FromStep3() {
-    document.getElementById('step3').style.display = 'none';
-    document.getElementById('step2').style.display = 'block';
-}
-
-function goToStep3FromResults() {
-    document.getElementById('result').style.display = 'none';
-    document.getElementById('step3').style.display = 'block';
 }
 
 function addOrderValue(button) {
@@ -216,22 +223,35 @@ function addOrderValue(button) {
         <input type="number" class="order-value" step="0.01" required>
     `;
     cardContentContainer.appendChild(newContent);
+    updateSubtotal(button.closest('.card'));
 }
 
 function removeOrderValue(button) {
     const cardContentContainer = button.closest('.card').querySelector('.card-content-container');
     if (cardContentContainer.children.length > 1) {
         cardContentContainer.removeChild(cardContentContainer.lastChild);
+        updateSubtotal(button.closest('.card'));
     }
+}
+
+function updateSubtotal(card) {
+    const inputs = card.querySelectorAll('.order-value');
+    const total = Array.from(inputs).reduce((acc, input) => acc + (parseFloat(input.value) || 0), 0);
+    card.querySelector('.card-subtotal').textContent = 
+        `${translations[currentLanguage].orderValueLabel}: ${total.toFixed(2)}`;
+}
+
+function goToStep3FromResults() {
+    document.getElementById('result').style.display = 'none';
+    document.getElementById('step3').style.display = 'block';
+    document.getElementById('result-cards-container').innerHTML = '';
 }
 
 function calculateVAT() {
     const totalOrder = parseFloat(document.getElementById('total-order').value);
     const subTotal = parseFloat(document.getElementById('sub-total').value);
     const vat = totalOrder - subTotal;
-    const cardsContainer = document.getElementById('cards-container');
-    const cards = cardsContainer.getElementsByClassName('card');
-    const names = Array.from(cards).map(card => card.querySelector('.card-header').innerText);
+    const cards = document.getElementsByClassName('card');
     const orderValues = Array.from(cards).map(card => 
         Array.from(card.querySelectorAll('.order-value')).map(input => parseFloat(input.value) || 0)
     );
@@ -240,8 +260,11 @@ function calculateVAT() {
     const totalOrderValue = orderTotals.reduce((acc, cur) => acc + cur, 0);
 
     if (Math.abs(totalOrderValue - subTotal) > 2) {
-        alert(translations[currentLanguage].mismatchError);
+        document.getElementById('mismatch-alert').textContent = translations[currentLanguage].mismatchAlert;
+        document.getElementById('mismatch-alert').style.display = 'block';
         return;
+    } else {
+        document.getElementById('mismatch-alert').style.display = 'none';
     }
 
     const resultCardsContainer = document.getElementById('result-cards-container');
@@ -249,11 +272,11 @@ function calculateVAT() {
     orderTotals.forEach((orderValue, index) => {
         const percentage = orderValue / totalOrderValue;
         const vatShare = percentage * vat;
-        const totalToPay = Math.round(orderValue + vatShare);
+        const totalToPay = (orderValue + vatShare).toFixed(2);
         const card = document.createElement('div');
         card.classList.add('card');
         card.innerHTML = `
-            <div class="card-header">${names[index]}</div>
+            <div class="card-header">${cards[index].querySelector('.card-header').innerText}</div>
             <div class="card-content">
                 <span>${translations[currentLanguage].orderValueLabel}:</span> ${orderValue.toFixed(2)}
             </div>
@@ -261,37 +284,86 @@ function calculateVAT() {
                 <span>${translations[currentLanguage].vatLabel}:</span> ${vatShare.toFixed(2)}
             </div>
             <div class="card-content total-to-pay">
-                <span>${translations[currentLanguage].totalToPayLabel}:</span> ${totalToPay.toFixed(2)}
+                <span>${translations[currentLanguage].totalToPayLabel}:</span> ${totalToPay}
             </div>
         `;
+
+        // إضافة زر المشاركة
+        const shareButton = document.createElement('button');
+        shareButton.className = 'share-btn';
+        shareButton.innerHTML = translations[currentLanguage].shareResult;
+        shareButton.onclick = () => shareResult(card);
+        card.appendChild(shareButton);
+
         resultCardsContainer.appendChild(card);
     });
     document.getElementById('step3').style.display = 'none';
     document.getElementById('result').style.display = 'block';
 }
 
+async function shareResult(cardElement) {
+    try {
+        const canvas = await html2canvas(cardElement);
+        canvas.toBlob((blob) => {
+            const file = new File([blob], 'receipt.png', { type: 'image/png' });
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Receipt',
+                    files: [file]
+                });
+            } else {
+                alert(translations[currentLanguage].shareError || 'المشاركة غير مدعومة');
+            }
+        });
+    } catch (err) {
+        console.error('Error sharing:', err);
+    }
+}
+
+async function saveAllResults() {
+    try {
+        const container = document.getElementById('result-cards-container');
+        const canvas = await html2canvas(container);
+        const link = document.createElement('a');
+        link.download = 'all-receipts.png';
+        link.href = canvas.toDataURL();
+        link.click();
+    } catch (err) {
+        alert(translations[currentLanguage].saveError || 'حدث خطأ أثناء الحفظ');
+    }
+}
+
 function startAgain() {
-    document.getElementById('num-people').value = '';
-    document.getElementById('total-order').value = '';
-    document.getElementById('sub-total').value = '';
-    document.getElementById('names-form').innerHTML = '';
-    document.getElementById('cards-container').innerHTML = '';
-    document.getElementById('result-cards-container').innerHTML = '';
-    document.getElementById('result').style.display = 'none';
-    document.getElementById('step1').style.display = 'block';
-    document.getElementById('next-button').style.display = 'none';
+    if (confirm(translations[currentLanguage].confirmReset)) {
+        document.getElementById('num-people').value = '';
+        document.getElementById('total-order').value = '';
+        document.getElementById('sub-total').value = '';
+        document.getElementById('names-form').innerHTML = '';
+        document.getElementById('cards-container').innerHTML = '';
+        document.getElementById('result-cards-container').innerHTML = '';
+        document.getElementById('result').style.display = 'none';
+        document.getElementById('step1').style.display = 'block';
+        document.getElementById('next-button').style.display = 'none';
+    }
 }
 
 function openFacebook(event) {
     event.preventDefault();
-    const facebookAppUrl = "fb://profile/ahmed.joo";
-    const facebookWebUrl = "https://facebook.com/ahmed.joo";
-
-    // Attempt to open the Facebook app
-    window.location.href = facebookAppUrl;
-
-    // If the Facebook app is not installed, fall back to the web URL
-    setTimeout(() => {
-        window.location.href = facebookWebUrl;
-    }, 1000);
+    window.location.href = "https://facebook.com/ahmed.joo";
 }
+
+document.querySelectorAll('input[type="number"]').forEach(input => {
+    input.addEventListener('input', () => {
+        if (input.value < 0) input.value = 0;
+    });
+});
+
+document.addEventListener('input', (e) => {
+    if (e.target.classList.contains('order-value')) {
+        updateSubtotal(e.target.closest('.card'));
+    }
+});
+
+window.onload = function() {
+    setLanguage('ar');
+};
