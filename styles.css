@@ -142,6 +142,14 @@ button:hover {
     line-height: 1;
 }
 
+.card-subtotal {
+    color: #2ecc71; /* اللون الأخضر */
+    font-weight: bold;
+    margin: 5px 0;
+    text-align: right;
+    padding: 0 10px;
+}
+
 /* Responsive adjustments */
 @media (min-width: 800px) and (orientation: landscape) {
     .cards-container, .result-cards-container, .names-container {
