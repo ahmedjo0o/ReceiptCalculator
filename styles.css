@@ -1,83 +1,217 @@
-/* Base styles */
+/* أنماط القاعدة العامة */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(to bottom right, #f8f9fa, #e9ecef);
+    background: linear-gradient(to bottom right, #f0f0f0, #cfcfcf);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
     margin: 0;
     padding: 0;
+    color: #333;
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
+/* الحاوية الرئيسية */
 .container {
-    background: white;
-    padding: 25px;
-    border-radius: 15px;
-    width: 95%;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 30px;
+    border-radius: 16px;
     max-width: 1000px;
-    margin: 30px auto;
+    margin: 50px auto;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
 }
 
-/* تحسين الهواتف */
-@media (max-width: 768px) {
-    .container {
-        padding: 15px;
-        width: 100%;
-        border-radius: 0;
-    }
-}
-
-/* العناوين */
-h1, h2 {
-    color: #2c3e50;
-    border-bottom: 2px solid #3498db;
-    padding-bottom: 8px;
+/* قسم اختيار اللغة */
+#language-selection {
+    text-align: center;
     margin-bottom: 20px;
 }
 
-/* الأزرار */
-button {
-    background: #3498db !important;
-    color: white !important;
+#language-selection button {
+    margin: 10px;
+    padding: 10px 20px;
     border: none;
-    padding: 12px 25px;
     border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.3);
+    color: #333;
     cursor: pointer;
-    transition: all 0.3s;
+    transition: background-color 0.3s, transform 0.2s;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-button:hover {
-    background: #2980b9 !important;
+#language-selection button:hover {
+    background-color: rgba(255, 255, 255, 0.5);
     transform: translateY(-2px);
 }
 
-/* البطاقات */
+/* أنماط النماذج */
+label {
+    display: block;
+    margin-top: 10px;
+}
+
+input[type="number"], input[type="text"] {
+    width: calc(100% - 22px);
+    padding: 12px;
+    margin-top: 5px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.5);
+    box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+input[type="text"].error, input[type="number"].error {
+    border-color: red;
+}
+
+.error-message {
+    color: red;
+    font-size: 0.9em;
+    display: none;
+    margin-top: 5px;
+}
+
+/* أنماط الأزرار */
+button {
+    display: inline-block;
+    padding: 12px 24px;
+    margin-top: 15px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.3);
+    color: #333;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+button:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-2px);
+}
+
+/* أنماط البطاقات */
 .card {
-    background: white;
-    border: 1px solid #e0e0e0;
-    border-radius: 12px;
-    padding: 20px;
-    margin: 15px 0;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    transition: transform 0.2s;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 10px 0; /* تحسين المسافة بين البطاقات */
+    padding: 15px;
 }
 
-.card:hover {
-    transform: scale(1.01);
+.card-header {
+    font-weight: bold;
+    font-size: 1.2em;
+    margin-bottom: 5px;
+    color: #2c3e50; /* لون داكن للعناوين */
 }
 
-/* الفوتر */
+.card-content {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+}
+
+.total-to-pay {
+    font-weight: bold;
+    color: #e74c3c;
+    border: 1px solid #e74c3c;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.card-controls {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.card-controls button {
+    width: 30px;
+    height: 30px;
+    margin: 0 5px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    line-height: 1;
+}
+
+.card-subtotal {
+    color: #2ecc71; /* إعادة اللون الأخضر */
+    font-weight: bold;
+    margin: 5px 0;
+    text-align: right;
+    padding: 0 10px;
+}
+
+/* التعديلات للهواتف */
+@media (max-width: 600px) {
+    .container {
+        width: 95%;
+        padding: 15px;
+        margin: 20px auto;
+    }
+    
+    button {
+        width: 100%;
+        margin: 10px 0;
+    }
+    
+    .card {
+        flex: 1 1 100%;
+        margin: 8px 0; /* تحسين المسافة على الهواتف */
+    }
+
+    input[type="number"], input[type="text"] {
+        font-size: 16px; /* منع التكبير في iOS */
+    }
+}
+
+/* الفوتر المُحسَّن */
 footer {
-    background: #2c3e50;
-    color: white;
-    padding: 20px 0;
     text-align: center;
-    position: relative;
-    margin-top: 50px;
+    padding: 15px 0;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(255, 255, 255, 0.18);
+    position: relative; /* تغيير من fixed إلى relative */
+    margin-top: 30px; /* مسافة فوق الفوتر */
+    width: 100%;
 }
 
-#result {
-    padding-bottom: 100px;
+footer p {
+    margin: 0;
+    color: #333;
+}
+
+footer a {
+    color: #e74c3c;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+footer a:hover {
+    color: #d62c1a;
+}
+
+/* تحسينات إضافية للتمييز */
+h1, h2 {
+    color: #2c3e50;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+button#save-all-button {
+    background: #3498db !important;
+    color: white !important;
+    margin: 20px 0;
 }
