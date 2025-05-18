@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>احسب فاتورتك مع صحابك</title>
+    <title>إحسب فاتورتك مع أصدقائك</title>
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -17,7 +17,7 @@
 	
     <div class="container">
         <div id="app-content" style="display: none;">
-            <h1 id="app-title">احسب فاتورتك مع صحابك</h1>
+            <h1 id="app-title">إحسب فاتورتك مع أصدقائك</h1>
             <div id="step1">
                 <div class="input-group">
                     <label for="num-people"><span id="label-num-people">عدد الأشخاص:</span></label>
@@ -51,7 +51,7 @@
             <div id="result" style="display: none;">
                 <h2 id="results-title">النتائج</h2>
                 <div id="result-cards-container" class="result-cards-container"></div>
-                <button id="save-all-button" onclick="saveAllResults()"><span id="button-save-all">حفظ الكل كصورة</span></button>
+                <button id="share-invoice-button" onclick="shareAllResults()"><span id="button-share-invoice">مشاركة الفاتورة</span></button>
                 <button id="back-to-step3-button" onclick="goToStep3FromResults()"><span id="button-back-to-step3">السابق</span></button>
                 <button id="start-again-button" onclick="startAgain()"><span id="button-start-again">البدء من جديد</span></button>
             </div>

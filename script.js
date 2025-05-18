@@ -26,7 +26,7 @@ const translations = {
         mismatchAlert: 'Subtotal mismatch detected',
         confirmReset: 'Are you sure you want to reset?',
         shareResult: 'Share',
-        saveAllResults: 'Save All as Image'
+		shareInvoice: 'Share Invoice',
     },
     ar: {
         appTitle: 'احسب فاتورتك مع صحابك',
@@ -54,8 +54,8 @@ const translations = {
         footerText: 'جميع الحقوق محفوظة ©',
         mismatchAlert: 'الفرق كبير بين المجموع والقيمة الفرعية',
         confirmReset: 'هل تريد البدء من جديد؟',
-        shareResult: 'مشاركة',
-        saveAllResults: 'حفظ الكل كصورة'
+        shareResult: 'إرسال',
+		shareInvoice: 'إرسال الفاتورة',
     }
 };
 
@@ -82,7 +82,6 @@ function setLanguage(language) {
     document.getElementById('total-order-error').innerText = translations[language].totalOrderError;
     document.getElementById('sub-total-error').innerText = translations[language].subTotalError;
     document.getElementById('footer-text').innerText = translations[language].footerText;
-    document.getElementById('button-save-all').innerText = translations[language].saveAllResults;
     
     if (document.getElementById('step1').style.display !== 'none') {
         const numPeople = document.getElementById('num-people').value;
@@ -406,16 +405,23 @@ async function shareResult(cardElement) {
     }
 }
 
-async function saveAllResults() {
+async function shareAllResults() {
     try {
         const container = document.getElementById('result-cards-container');
         const canvas = await html2canvas(container);
-        const link = document.createElement('a');
-        link.download = 'all-receipts.png';
-        link.href = canvas.toDataURL();
-        link.click();
+        canvas.toBlob((blob) => {
+            const file = new File([blob], 'invoice.png', { type: 'image/png' });
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Invoice',
+                    files: [file]
+                });
+            } else {
+                alert(translations[currentLanguage].shareError || 'المشاركة غير مدعومة');
+            }
+        });
     } catch (err) {
-        alert(translations[currentLanguage].saveError || 'حدث خطأ أثناء الحفظ');
+        console.error('Error sharing:', err);
     }
 }
 
