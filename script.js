@@ -5,7 +5,7 @@ const translations = {
         numPeople: 'Number of People:',
         totalOrder: 'Total Order Value:',
         subTotal: 'Sub-total Value:',
-		totalSumLabel: 'Total'
+		totalSumLabel: 'Total:',
         generateNamesButton: 'Go',
         nextButton: 'Next',
         backButton: 'Back',
@@ -34,7 +34,7 @@ const translations = {
         numPeople: 'عدد الأشخاص:',
         totalOrder: 'قيمة الفاتورة:',
         subTotal: 'قيمة الطلبات بدون ضريبة:',
-		totalSumLabel: 'الإجمالي',
+		totalSumLabel: 'الإجمالي:',
         generateNamesButton: 'ابدأ',
         nextButton: 'التالي',
         backButton: 'السابق',
