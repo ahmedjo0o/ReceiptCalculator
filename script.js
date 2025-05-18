@@ -92,6 +92,14 @@ function setLanguage(language) {
             });
         }
     }
+	
+    if (document.getElementById('step3').style.display === 'block') {
+        refreshOrderLabels();
+    }
+	
+	    if (document.getElementById('result').style.display === 'block') {
+        refreshResultLabels();
+    }
 }
 
 function toggleLanguage() {
@@ -146,6 +154,21 @@ function generateNames() {
         document.getElementById('num-people-error').style.display = 'block';
         document.getElementById('num-people').classList.add('error');
     }
+}
+
+function refreshOrderLabels() {
+    const cards = document.querySelectorAll('.card');
+    cards.forEach(card => {
+        // تحديث تسمية الـ Subtotal
+        card.querySelector('.card-subtotal').textContent = 
+            `${translations[currentLanguage].orderValueLabel}: 0.00`;
+
+        // تحديث تسميات الطلبات (Order 1, Order 2...)
+        const orderInputs = card.querySelectorAll('.card-content span');
+        orderInputs.forEach((span, index) => {
+            span.textContent = `${translations[currentLanguage].orderValueLabel2} ${index + 1}:`;
+        });
+    });
 }
 
 function goToStep2FromStep1() {
@@ -327,6 +350,16 @@ function calculateVAT() {
     });
     document.getElementById('step3').style.display = 'none';
     document.getElementById('result').style.display = 'block';
+}
+
+function refreshResultLabels() {
+    const resultCards = document.querySelectorAll('#result-cards-container .card');
+    resultCards.forEach(card => {
+        const contents = card.querySelectorAll('.card-content span');
+        contents[0].textContent = `${translations[currentLanguage].orderValueLabel}:`;
+        contents[1].textContent = `${translations[currentLanguage].vatLabel}:`;
+        contents[2].textContent = `${translations[currentLanguage].totalToPayLabel}:`;
+    });
 }
 
 async function shareResult(cardElement) {
