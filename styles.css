@@ -170,9 +170,9 @@ button:hover {
 }
 
 /* التعديلات للهواتف */
-@media (max-width: 600px) {
+@media (max-width: 400px) {
     .container {
-        width: 95%;
+        width: 90%;
         padding: 15px;
         margin: 20px auto;
     }
