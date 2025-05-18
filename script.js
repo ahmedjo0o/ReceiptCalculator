@@ -5,6 +5,7 @@ const translations = {
         numPeople: 'Number of People:',
         totalOrder: 'Total Order Value:',
         subTotal: 'Sub-total Value:',
+		totalSumLabel: 'Total'
         generateNamesButton: 'Go',
         nextButton: 'Next',
         backButton: 'Back',
@@ -33,6 +34,7 @@ const translations = {
         numPeople: 'عدد الأشخاص:',
         totalOrder: 'قيمة الفاتورة:',
         subTotal: 'قيمة الطلبات بدون ضريبة:',
+		totalSumLabel: 'الإجمالي',
         generateNamesButton: 'ابدأ',
         nextButton: 'التالي',
         backButton: 'السابق',
@@ -99,6 +101,10 @@ function setLanguage(language) {
     
     if (document.getElementById('result').style.display === 'block') {
         refreshResultLabels();
+    }
+	
+	if (document.getElementById('step3').style.display === 'block') {
+        updateTotalSum();
     }
 }
 
@@ -256,7 +262,7 @@ function goToStep3() {
         totalSumContainer.id = 'total-sum-container';
         totalSumContainer.innerHTML = `
             <div class="card-subtotal" id="total-sum-display">
-                ${translations[currentLanguage].orderValueLabel}: 0.00
+                ${translations[currentLanguage].totalSumLabel}: 0.00
             </div>
         `;
         cardsContainer.appendChild(totalSumContainer);
@@ -308,7 +314,7 @@ function updateTotalSum() {
     
     const totalElement = document.getElementById('total-sum-display');
     if (totalElement) {
-        totalElement.textContent = `${translations[currentLanguage].orderValueLabel}: ${totalSum.toFixed(2)}`;
+        totalElement.textContent = `${translations[currentLanguage].totalSumLabel}: ${totalSum.toFixed(2)}`;
     }
 }
 
