@@ -169,6 +169,24 @@ button:hover {
     padding: 0 10px;
 }
 
+/* تنسيقات المجموع الكلي */
+.total-sum-container {
+    margin-top: 20px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#total-sum-display {
+    color: #2ecc71;
+    font-weight: bold;
+    text-align: center;
+    font-size: 1.1em;
+    padding: 10px;
+}
+
 /* التعديلات للهواتف */
 @media (max-width: 600px) {
     .container {

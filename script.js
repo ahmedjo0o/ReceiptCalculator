@@ -257,6 +257,14 @@ function goToStep3() {
                 </div>
             `;
             cardsContainer.appendChild(card);
+			const totalSumContainer = document.createElement('div');
+			totalSumContainer.classList.add('total-sum-container');
+			totalSumContainer.innerHTML = `
+				<div class="card-subtotal" id="total-sum-display">
+					${translations[currentLanguage].orderValueLabel}: 0.00
+				</div>
+			`;
+			cardsContainer.appendChild(totalSumContainer);
         });
     } else if (allFilled) {
         document.getElementById('mismatch-alert').textContent = translations[currentLanguage].mismatchAlert;
@@ -285,11 +293,27 @@ function removeOrderValue(button) {
     }
 }
 
+function updateTotalSum() {
+    const cards = document.querySelectorAll('.card');
+    const totalSum = Array.from(cards).reduce((acc, card) => {
+        const subtotalText = card.querySelector('.card-subtotal').textContent;
+        const value = parseFloat(subtotalText.split(': ')[1]) || 0;
+        return acc + value;
+    }, 0);
+    
+    const totalElement = document.getElementById('total-sum-display');
+    if (totalElement) {
+        totalElement.textContent = `${translations[currentLanguage].orderValueLabel}: ${totalSum.toFixed(2)}`;
+    }
+}
+
 function updateSubtotal(card) {
     const inputs = card.querySelectorAll('.order-value');
     const total = Array.from(inputs).reduce((acc, input) => acc + (parseFloat(input.value) || 0), 0);
     card.querySelector('.card-subtotal').textContent = 
         `${translations[currentLanguage].orderValueLabel}: ${total.toFixed(2)}`;
+		
+	updateTotalSum();
 }
 
 function goToStep3FromResults() {
