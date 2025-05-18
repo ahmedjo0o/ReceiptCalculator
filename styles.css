@@ -28,7 +28,7 @@ body {
 
 /* إصلاح ظهور الخطوة الأولى */
 #app-content {
-    display: block !important; /* إجبار الإظهار */
+    display: block !important;
 }
 
 /* شريط اللغة الجديد */
@@ -118,7 +118,7 @@ button:hover {
     border: 1px solid rgba(255, 255, 255, 0.18);
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin: 10px 0; /* تحسين المسافة بين البطاقات */
+    margin: 10px 0;
     padding: 15px;
 }
 
@@ -126,7 +126,7 @@ button:hover {
     font-weight: bold;
     font-size: 1.2em;
     margin-bottom: 5px;
-    color: #2c3e50; /* لون داكن للعناوين */
+    color: #2c3e50;
 }
 
 .card-content {
@@ -162,29 +162,11 @@ button:hover {
 }
 
 .card-subtotal {
-    color: #2ecc71; /* إعادة اللون الأخضر */
+    color: #2ecc71;
     font-weight: bold;
     margin: 5px 0;
     text-align: right;
     padding: 0 10px;
-}
-
-/* تنسيقات المجموع الكلي */
-.total-sum-container {
-    margin-top: 20px;
-    padding: 15px;
-    background: rgba(255, 255, 255, 0.9);
-    border-radius: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-#total-sum-display {
-    color: #2ecc71;
-    font-weight: bold;
-    text-align: center;
-    font-size: 1.1em;
-    padding: 10px;
 }
 
 /* التعديلات للهواتف */
@@ -202,11 +184,11 @@ button:hover {
     
     .card {
         flex: 1 1 100%;
-        margin: 8px 0; /* تحسين المسافة على الهواتف */
+        margin: 8px 0;
     }
 
     input[type="number"], input[type="text"] {
-        font-size: 16px; /* منع التكبير في iOS */
+        font-size: 16px;
     }
 }
 
@@ -218,8 +200,6 @@ footer {
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-top: 1px solid rgba(255, 255, 255, 0.18);
-    
-    /* التعديلات الجديدة */
     position: fixed;
     bottom: 0;
     left: 0;
@@ -228,10 +208,8 @@ footer {
 }
 
 .container {
-    /* ... الإعدادات الحالية ... */
-    margin-bottom: 80px; /* إضافة هذه السطر */
+    margin-bottom: 80px;
 }
-
 
 footer p {
     margin: 0;
@@ -258,4 +236,21 @@ button#save-all-button {
     background: #3498db !important;
     color: white !important;
     margin: 20px 0;
+}
+
+/* تنسيقات الإجمالي الكلي */
+#total-sum-container {
+    margin-top: 20px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#total-sum-display {
+    color: #2ecc71;
+    font-weight: bold;
+    text-align: center;
+    font-size: 1.1em;
 }

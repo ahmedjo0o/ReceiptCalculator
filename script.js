@@ -17,7 +17,7 @@ const translations = {
         nameLabel: 'Name',
         nameError: 'Please fill this field',
         mismatchError: 'Order values do not match the sub-total. Please check your inputs.',
-        orderValueLabel: 'Order Subtotal',
+        orderValueLabel: 'Total Orders',
         orderValueLabel2: 'Order',
         vatLabel: 'VAT',
         totalToPayLabel: 'Total to Pay',
@@ -81,23 +81,23 @@ function setLanguage(language) {
     document.getElementById('sub-total-error').innerText = translations[language].subTotalError;
     document.getElementById('footer-text').innerText = translations[language].footerText;
     document.getElementById('button-save-all').innerText = translations[language].saveAllResults;
-	
+    
     if (document.getElementById('step1').style.display !== 'none') {
         const numPeople = document.getElementById('num-people').value;
         if (numPeople > 0) {
             const names = Array.from(document.querySelectorAll('.person-name')).map(input => input.value);
-            generateNames(); // إعادة إنشاء الحقول
+            generateNames();
             document.querySelectorAll('.person-name').forEach((input, index) => {
-                if (names[index]) input.value = names[index]; // استعادة القيم
+                if (names[index]) input.value = names[index];
             });
         }
     }
-	
+    
     if (document.getElementById('step3').style.display === 'block') {
         refreshOrderLabels();
     }
-	
-	    if (document.getElementById('result').style.display === 'block') {
+    
+    if (document.getElementById('result').style.display === 'block') {
         refreshResultLabels();
     }
 }
@@ -118,11 +118,6 @@ function updateLanguageButton() {
     document.getElementById('language-text').textContent = langText;
 }
 
-function updateLanguageButton() {
-    const langText = currentLanguage === 'ar' ? 'English' : 'العربية';
-    document.getElementById('language-text').textContent = langText;
-}
-
 function generateNames() {
     const numPeople = document.getElementById('num-people').value;
     if (numPeople && numPeople > 0) {
@@ -133,10 +128,10 @@ function generateNames() {
         for (let i = 0; i < numPeople; i++) {
             const nameGroup = document.createElement('div');
             nameGroup.classList.add('name-input-group');
-			
+            
             const label = document.createElement('label');
             label.innerText = `${translations[currentLanguage].nameLabel} ${i + 1}:`;
-			
+            
             const input = document.createElement('input');
             input.type = 'text';
             input.required = true;
@@ -159,11 +154,8 @@ function generateNames() {
 function refreshOrderLabels() {
     const cards = document.querySelectorAll('.card');
     cards.forEach(card => {
-        // تحديث تسمية الـ Subtotal
         card.querySelector('.card-subtotal').textContent = 
             `${translations[currentLanguage].orderValueLabel}: 0.00`;
-
-        // تحديث تسميات الطلبات (Order 1, Order 2...)
         const orderInputs = card.querySelectorAll('.card-content span');
         orderInputs.forEach((span, index) => {
             span.textContent = `${translations[currentLanguage].orderValueLabel2} ${index + 1}:`;
@@ -257,15 +249,17 @@ function goToStep3() {
                 </div>
             `;
             cardsContainer.appendChild(card);
-			const totalSumContainer = document.createElement('div');
-			totalSumContainer.classList.add('total-sum-container');
-			totalSumContainer.innerHTML = `
-				<div class="card-subtotal" id="total-sum-display">
-					${translations[currentLanguage].orderValueLabel}: 0.00
-				</div>
-			`;
-			cardsContainer.appendChild(totalSumContainer);
         });
+
+        // إضافة خانة الإجمالي الكلي
+        const totalSumContainer = document.createElement('div');
+        totalSumContainer.id = 'total-sum-container';
+        totalSumContainer.innerHTML = `
+            <div class="card-subtotal" id="total-sum-display">
+                ${translations[currentLanguage].orderValueLabel}: 0.00
+            </div>
+        `;
+        cardsContainer.appendChild(totalSumContainer);
     } else if (allFilled) {
         document.getElementById('mismatch-alert').textContent = translations[currentLanguage].mismatchAlert;
         document.getElementById('mismatch-alert').style.display = 'block';
@@ -293,27 +287,29 @@ function removeOrderValue(button) {
     }
 }
 
-function updateTotalSum() {
-    const cards = document.querySelectorAll('.card');
-    const totalSum = Array.from(cards).reduce((acc, card) => {
-        const subtotalText = card.querySelector('.card-subtotal').textContent;
-        const value = parseFloat(subtotalText.split(': ')[1]) || 0;
-        return acc + value;
-    }, 0);
-    
-    const totalElement = document.getElementById('total-sum-display');
-    if (totalElement) {
-        totalElement.textContent = `${translations[currentLanguage].orderValueLabel}: ${totalSum.toFixed(2)}`;
-    }
-}
-
 function updateSubtotal(card) {
     const inputs = card.querySelectorAll('.order-value');
     const total = Array.from(inputs).reduce((acc, input) => acc + (parseFloat(input.value) || 0), 0);
     card.querySelector('.card-subtotal').textContent = 
         `${translations[currentLanguage].orderValueLabel}: ${total.toFixed(2)}`;
-		
-	updateTotalSum();
+    
+    updateTotalSum();
+}
+
+function updateTotalSum() {
+    const cards = document.querySelectorAll('.card');
+    let totalSum = 0;
+    
+    cards.forEach(card => {
+        const subtotalText = card.querySelector('.card-subtotal').textContent;
+        const value = parseFloat(subtotalText.split(': ')[1]) || 0;
+        totalSum += value;
+    });
+    
+    const totalElement = document.getElementById('total-sum-display');
+    if (totalElement) {
+        totalElement.textContent = `${translations[currentLanguage].orderValueLabel}: ${totalSum.toFixed(2)}`;
+    }
 }
 
 function goToStep3FromResults() {
@@ -363,7 +359,6 @@ function calculateVAT() {
             </div>
         `;
 
-        // إضافة زر المشاركة
         const shareButton = document.createElement('button');
         shareButton.className = 'share-btn';
         shareButton.innerHTML = translations[currentLanguage].shareResult;
