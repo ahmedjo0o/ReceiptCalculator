@@ -8,12 +8,11 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <nav id="language-bar">
+        <button onclick="selectLanguage('ar')">العربية</button>
+        <button onclick="selectLanguage('en')">English</button>
+    </nav>
     <div class="container">
-        <div id="language-selection">
-            <h1>اختر اللغة</h1>
-            <button onclick="selectLanguage('en')">English</button>
-            <button onclick="selectLanguage('ar')">العربية</button>
-        </div>
         <div id="app-content" style="display: none;">
             <h1 id="app-title">احسب فاتورتك مع صحابك</h1>
             <div id="step1">

@@ -26,27 +26,30 @@ body {
     border: 1px solid rgba(255, 255, 255, 0.18);
 }
 
-/* قسم اختيار اللغة */
-#language-selection {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-#language-selection button {
-    margin: 10px;
-    padding: 10px 20px;
-    border: none;
+/* شريط اللغة الثابت */
+#language-bar {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 8px;
     border-radius: 8px;
-    background-color: rgba(255, 255, 255, 0.3);
-    color: #333;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
-#language-selection button:hover {
-    background-color: rgba(255, 255, 255, 0.5);
-    transform: translateY(-2px);
+#language-bar button {
+    margin: 0 5px;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+#language-bar button:hover {
+    background: rgba(255, 255, 255, 0.5);
 }
 
 /* أنماط النماذج */

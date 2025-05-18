@@ -84,9 +84,7 @@ function setLanguage(language) {
 }
 
 function selectLanguage(language) {
-    setLanguage(language);
-    document.getElementById('language-selection').style.display = 'none';
-    document.getElementById('app-content').style.display = 'block';
+    setLanguage(language); // الترجمة التلقائية دون إخفاء العناصر
 }
 
 function generateNames() {
