@@ -81,6 +81,17 @@ function setLanguage(language) {
     document.getElementById('sub-total-error').innerText = translations[language].subTotalError;
     document.getElementById('footer-text').innerText = translations[language].footerText;
     document.getElementById('button-save-all').innerText = translations[language].saveAllResults;
+	
+    if (document.getElementById('step1').style.display !== 'none') {
+        const numPeople = document.getElementById('num-people').value;
+        if (numPeople > 0) {
+            const names = Array.from(document.querySelectorAll('.person-name')).map(input => input.value);
+            generateNames(); // إعادة إنشاء الحقول
+            document.querySelectorAll('.person-name').forEach((input, index) => {
+                if (names[index]) input.value = names[index]; // استعادة القيم
+            });
+        }
+    }
 }
 
 function toggleLanguage() {
@@ -114,8 +125,10 @@ function generateNames() {
         for (let i = 0; i < numPeople; i++) {
             const nameGroup = document.createElement('div');
             nameGroup.classList.add('name-input-group');
+			
             const label = document.createElement('label');
             label.innerText = `${translations[currentLanguage].nameLabel} ${i + 1}:`;
+			
             const input = document.createElement('input');
             input.type = 'text';
             input.required = true;
