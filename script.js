@@ -84,8 +84,16 @@ function setLanguage(language) {
 }
 
 function selectLanguage(language) {
-    setLanguage(language); // الترجمة التلقائية دون إخفاء العناصر
+    setLanguage(language);
+    // تأكد من إظهار المحتوى الرئيسي دائمًا
+    document.getElementById('app-content').style.display = 'block';
 }
+
+// التهيئة عند التحميل
+window.onload = function() {
+    setLanguage('ar');
+    document.getElementById('app-content').style.display = 'block'; // إظهار المحتوى
+};
 
 function generateNames() {
     const numPeople = document.getElementById('num-people').value;
@@ -361,7 +369,3 @@ document.addEventListener('input', (e) => {
         updateSubtotal(e.target.closest('.card'));
     }
 });
-
-window.onload = function() {
-    setLanguage('ar');
-};

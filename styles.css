@@ -26,6 +26,11 @@ body {
     border: 1px solid rgba(255, 255, 255, 0.18);
 }
 
+/* إصلاح ظهور الخطوة الأولى */
+#app-content {
+    display: block !important; /* إجبار الإظهار */
+}
+
 /* شريط اللغة الثابت */
 #language-bar {
     position: fixed;
