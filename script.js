@@ -83,17 +83,26 @@ function setLanguage(language) {
     document.getElementById('button-save-all').innerText = translations[language].saveAllResults;
 }
 
-function selectLanguage(language) {
-    setLanguage(language);
-    // تأكد من إظهار المحتوى الرئيسي دائمًا
-    document.getElementById('app-content').style.display = 'block';
+function toggleLanguage() {
+    const newLang = currentLanguage === 'ar' ? 'en' : 'ar';
+    selectLanguage(newLang);
 }
 
-// التهيئة عند التحميل
-window.onload = function() {
-    setLanguage('ar');
-    document.getElementById('app-content').style.display = 'block'; // إظهار المحتوى
-};
+function selectLanguage(language) {
+    currentLanguage = language;
+    setLanguage(language);
+    updateLanguageButton();
+}
+
+function updateLanguageButton() {
+    const langText = currentLanguage === 'ar' ? 'English' : 'العربية';
+    document.getElementById('language-text').textContent = langText;
+}
+
+function updateLanguageButton() {
+    const langText = currentLanguage === 'ar' ? 'English' : 'العربية';
+    document.getElementById('language-text').textContent = langText;
+}
 
 function generateNames() {
     const numPeople = document.getElementById('num-people').value;

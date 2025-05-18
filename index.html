@@ -8,10 +8,13 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <nav id="language-bar">
-        <button onclick="selectLanguage('ar')">العربية</button>
-        <button onclick="selectLanguage('en')">English</button>
-    </nav>
+    <div id="language-switcher">
+        <button onclick="toggleLanguage()">
+            <span class="globe-icon">🌐</span>
+            <span id="language-text">English</span>
+        </button>
+    </div>
+	
     <div class="container">
         <div id="app-content" style="display: none;">
             <h1 id="app-title">احسب فاتورتك مع صحابك</h1>

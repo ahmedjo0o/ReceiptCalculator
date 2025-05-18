@@ -31,30 +31,38 @@ body {
     display: block !important; /* إجبار الإظهار */
 }
 
-/* شريط اللغة الثابت */
-#language-bar {
+/* شريط اللغة الجديد */
+#language-switcher {
     position: fixed;
-    top: 10px;
-    right: 10px;
+    top: 15px;
+    right: 15px;
     z-index: 1000;
+}
+
+#language-switcher button {
     background: rgba(255, 255, 255, 0.9);
-    padding: 8px;
-    border-radius: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    padding: 6px 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s;
+    backdrop-filter: blur(5px);
+}
+
+#language-switcher button:hover {
+    background: rgba(255, 255, 255, 1);
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
-#language-bar button {
-    margin: 0 5px;
-    padding: 6px 12px;
-    border: none;
-    border-radius: 4px;
-    background: rgba(255, 255, 255, 0.3);
-    cursor: pointer;
-    transition: all 0.2s;
+.globe-icon {
+    font-size: 1.1em;
 }
 
-#language-bar button:hover {
-    background: rgba(255, 255, 255, 0.5);
+#language-text {
+    font-size: 0.9em;
 }
 
 /* أنماط النماذج */
