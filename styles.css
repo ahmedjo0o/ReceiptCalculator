@@ -23,16 +23,17 @@ body {
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.18);
+    position: relative;
 }
 
-#language-selection {
-    text-align: center;
-    margin-bottom: 20px;
+#language-toggle {
+    position: absolute;
+    top: 15px;
+    right: 15px;
 }
 
-#language-selection button {
-    margin: 10px;
-    padding: 10px 20px;
+#language-toggle button {
+    padding: 8px 16px;
     border: none;
     border-radius: 8px;
     background-color: rgba(255, 255, 255, 0.3);
@@ -42,7 +43,7 @@ body {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-#language-selection button:hover {
+#language-toggle button:hover {
     background-color: rgba(255, 255, 255, 0.5);
     transform: translateY(-2px);
 }
@@ -71,7 +72,7 @@ input[type="text"].error, input[type="number"].error {
     color: red;
     font-size: 0.9em;
     display: none;
-    margin-top: 5px; /* Add vertical space under error message */
+    margin-top: 5px;
 }
 
 /* Button styles */
@@ -101,7 +102,7 @@ button:hover {
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin-bottom: 10px;
-    padding: 10px; /* Added padding for better readability */
+    padding: 10px;
 }
 
 .card-header {
@@ -118,8 +119,8 @@ button:hover {
 
 .total-to-pay {
     font-weight: bold;
-    color: #e74c3c; /* Reddish color */
-    border: 1px solid #e74c3c; /* Thin border */
+    color: #e74c3c;
+    border: 1px solid #e74c3c;
     padding: 5px;
     border-radius: 5px;
 }
@@ -134,7 +135,7 @@ button:hover {
     width: 30px;
     height: 30px;
     margin: 0 5px;
-    border-radius: 5px; /* Changed to rounded squares */
+    border-radius: 5px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -142,22 +143,10 @@ button:hover {
     line-height: 1;
 }
 
-/* Responsive adjustments */
-@media (min-width: 800px) and (orientation: landscape) {
-    .cards-container, .result-cards-container, .names-container {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-    }
-
-    .card, .name-input-group {
-        flex: 1 1 calc(33.333% - 20px);
-        margin: 10px;
-    }
-    
-    .card {
-        padding: 20px; /* Increase padding for better readability on larger screens */
-    }
+.card-total {
+    color: green;
+    font-size: 0.85em;
+    margin-top: 5px;
 }
 
 /* Footer styles */

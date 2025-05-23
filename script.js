@@ -1,297 +1,252 @@
+// Updated script.js with full language toggle and dynamic content translation
+let currentLanguage = 'ar';
+
 const translations = {
-    en: {
-        appTitle: 'Receipt Split Calculator',
-        selectLanguage: 'Select Language',
-        numPeople: 'Number of People:',
-        totalOrder: 'Total Order Value:',
-        subTotal: 'Sub-total Value:',
-        generateNamesButton: 'Go',
-        nextButton: 'Next',
-        backButton: 'Back',
-        calculateButton: 'Calculate',
-        startAgainButton: 'Start Again',
-        resultsTitle: 'Results',
-        numPeopleError: 'Please fill this field',
-        totalOrderError: 'Please fill this field',
-        subTotalError: 'Please fill this field',
-		nameLabel: 'Name',
-		nameError: 'Please fill this field',
-		mismatchError: 'Order values do not match the sub-total. Please check your inputs.',
-		orderValueLabel: 'Order Value',
-		orderValueLabel2: 'Order',
-        vatLabel: 'VAT',
-        totalToPayLabel: 'Total to Pay',
-        footerText: 'All rights reserved ©'
-    },
-    ar: {
-        appTitle: 'احسب فاتورتك مع صحابك',
-        selectLanguage: 'اختر اللغة',
-        numPeople: 'عدد الأشخاص:',
-        totalOrder: 'قيمة الفاتورة:',
-        subTotal: 'قيمة الطلبات بدون ضريبة:',
-        generateNamesButton: 'ابدأ',
-        nextButton: 'التالي',
-        backButton: 'السابق',
-        calculateButton: 'احسب',
-        startAgainButton: 'احسب مرة اخرى',
-        resultsTitle: 'النتائج',
-        numPeopleError: 'يرجى ملء هذا الحقل',
-        totalOrderError: 'يرجى ملء هذا الحقل',
-        subTotalError: 'يرجى ملء هذا الحقل',
-		nameLabel: 'اسم',
-		nameError: 'يرجى ملء هذا الحقل',
-		mismatchError: 'قيمة الطلبات لا تتطابق مع الإجمالي. يرجى التحقق من إدخالاتك.',
-		orderValueLabel: 'قيمة طلباتك',
-		orderValueLabel2: 'قيمة طلب',
-        vatLabel: 'ضريبة طلباتك',
-        totalToPayLabel: 'إجمالي',
-        footerText: 'جميع الحقوق محفوظة ©'
-    }
+  en: {
+    appTitle: 'Receipt Calculator',
+    numPeople: 'Number of People:',
+    totalOrder: 'Total Order Value:',
+    subTotal: 'Sub-total:',
+    generateNamesButton: 'Go',
+    nextButton: 'Next',
+    backButton: 'Back',
+    calculateButton: 'Calculate',
+    resultsTitle: 'Results',
+    startAgainButton: 'Start Again',
+    order: 'Order',
+    vat: 'VAT',
+    totalToPay: 'Total to Pay',
+    nameLabel: 'Name',
+    nameError: 'Please enter a name',
+    mismatchError: 'Subtotal mismatch!',
+    footerText: 'All rights reserved ©',
+    totalWithoutVAT: 'Total without VAT'
+  },
+  ar: {
+    appTitle: 'احسب فاتورتك مع صحابك',
+    numPeople: 'عدد الأشخاص:',
+    totalOrder: 'قيمة الفاتورة:',
+    subTotal: 'قيمة الطلبات بدون ضريبة:',
+    generateNamesButton: 'ابدأ',
+    nextButton: 'التالي',
+    backButton: 'السابق',
+    calculateButton: 'احسب',
+    resultsTitle: 'النتائج',
+    startAgainButton: 'احسب مرة اخرى',
+    order: 'قيمة طلب',
+    vat: 'الضريبة',
+    totalToPay: 'الإجمالي',
+    nameLabel: 'اسم',
+    nameError: 'يرجى ملء هذا الحقل',
+    mismatchError: 'المجموع غير مطابق!',
+    footerText: 'جميع الحقوق محفوظة ©',
+    totalWithoutVAT: 'الإجمالي بدون ضريبة'
+  }
 };
 
-let currentLanguage = 'en';
+function setLanguage(lang) {
+  currentLanguage = lang;
+  const t = translations[lang];
+  document.getElementById('app-title').innerText = t.appTitle;
+  document.getElementById('label-num-people').innerText = t.numPeople;
+  document.getElementById('label-total-order').innerText = t.totalOrder;
+  document.getElementById('label-sub-total').innerText = t.subTotal;
+  document.getElementById('generate-names-button').innerText = t.generateNamesButton;
+  document.getElementById('next-button').innerText = t.nextButton;
+  document.getElementById('back-to-step1-button').innerText = t.backButton;
+  document.getElementById('back-to-step3-button').innerText = t.backButton;
+  document.getElementById('calculate-button').innerText = t.calculateButton;
+  document.getElementById('results-title').innerText = t.resultsTitle;
+  document.getElementById('start-again-button').innerText = t.startAgainButton;
+  document.getElementById('footer-text').innerText = t.footerText;
 
-function setLanguage(language) {
-    currentLanguage = language;
-    document.getElementById('app-title').innerText = translations[language].appTitle;
-    document.getElementById('label-num-people').innerText = translations[language].numPeople;
-    document.getElementById('label-total-order').innerText = translations[language].totalOrder;
-    document.getElementById('label-sub-total').innerText = translations[language].subTotal;
-    document.getElementById('generate-names-button').innerText = translations[language].generateNamesButton;
-    document.getElementById('next-button').innerText = translations[language].nextButton;
-    document.getElementById('back-to-step1-button').innerText = translations[language].backButton;
-    document.getElementById('next-to-step3-button').innerText = translations[language].nextButton;
-    document.getElementById('back-to-step2-button').innerText = translations[language].backButton;
-    document.getElementById('calculate-button').innerText = translations[language].calculateButton;
-    document.getElementById('back-to-step3-button').innerText = translations[language].backButton;
-    document.getElementById('start-again-button').innerText = translations[language].startAgainButton;
-    document.getElementById('results-title').innerText = translations[language].resultsTitle;
-    document.getElementById('num-people-error').innerText = translations[language].numPeopleError;
-    document.getElementById('total-order-error').innerText = translations[language].totalOrderError;
-    document.getElementById('sub-total-error').innerText = translations[language].subTotalError;
-    document.getElementById('footer-text').innerText = translations[language].footerText;
-}
+  // 1. Update name labels
+  const nameInputs = document.querySelectorAll('#names-form label');
+  nameInputs.forEach((label, i) => {
+    label.innerText = `${t.nameLabel} ${i + 1}`;
+  });
 
-function selectLanguage(language) {
-    setLanguage(language);
-    document.getElementById('language-selection').style.display = 'none';
-    document.getElementById('app-content').style.display = 'block';
+  // 2. Update order field labels
+  document.querySelectorAll('#cards-container .card').forEach(card => {
+    const orderSpans = card.querySelectorAll('.card-content span');
+    orderSpans.forEach((span, i) => {
+      span.innerText = `${t.order} ${i + 1}:`;
+    });
+  });
+
+  // 3. Update results cards
+  document.querySelectorAll('#result-cards-container .card').forEach(card => {
+    const spans = card.querySelectorAll('.card-content');
+    if (spans.length >= 3) {
+      spans[0].innerHTML = `${t.order}: ${spans[0].innerText.split(':')[1]}`;
+      spans[1].innerHTML = `${t.vat}: ${spans[1].innerText.split(':')[1]}`;
+      spans[2].innerHTML = `<strong>${t.totalToPay}: ${spans[2].innerText.split(':')[1]}</strong>`;
+    }
+  });
+
+  // 4. Update subtotals
+  document.querySelectorAll('.person-subtotal-label').forEach(span => {
+    const value = span.innerText.split(':')[1];
+    span.innerText = `${t.totalWithoutVAT}: ${value}`;
+  });
 }
 
 function generateNames() {
-    const numPeople = document.getElementById('num-people').value;
-    if (numPeople && numPeople > 0) {
-        document.getElementById('num-people-error').style.display = 'none';
-        document.getElementById('num-people').classList.remove('error');
-        const namesForm = document.getElementById('names-form');
-        namesForm.innerHTML = '';
-        for (let i = 0; i < numPeople; i++) {
-            const nameGroup = document.createElement('div');
-            nameGroup.classList.add('name-input-group');
-            const label = document.createElement('label');
-            label.innerText = `${translations[currentLanguage].nameLabel} ${i + 1}:`;
-            const input = document.createElement('input');
-            input.type = 'text';
-            input.required = true;
-            input.classList.add('person-name');
-            const errorMessage = document.createElement('span');
-            errorMessage.classList.add('error-message');
-            errorMessage.innerText = translations[currentLanguage].nameError;
-            nameGroup.appendChild(label);
-            nameGroup.appendChild(input);
-            nameGroup.appendChild(errorMessage);
-            namesForm.appendChild(nameGroup);
-        }
-        document.getElementById('next-button').style.display = 'block';
-    } else {
-        document.getElementById('num-people-error').style.display = 'block';
-        document.getElementById('num-people').classList.add('error');
-    }
+  const n = document.getElementById('num-people').value;
+  const container = document.getElementById('names-form');
+  container.innerHTML = '';
+  for (let i = 1; i <= n; i++) {
+    const label = document.createElement('label');
+    label.innerText = `${translations[currentLanguage].nameLabel} ${i}`;
+    const input = document.createElement('input');
+    input.classList.add('person-name');
+    input.type = 'text';
+    input.required = true;
+    container.appendChild(label);
+    container.appendChild(input);
+  }
+  document.getElementById('next-button').style.display = 'inline-block';
 }
 
 function goToStep2FromStep1() {
-    const nameInputs = document.getElementsByClassName('person-name');
-    let allFilled = true;
-    for (let input of nameInputs) {
-        const errorMessage = input.nextElementSibling;
-        if (input.value.trim() === '') {
-            input.classList.add('error');
-            errorMessage.style.display = 'block';
-            allFilled = false;
-        } else {
-            input.classList.remove('error');
-            errorMessage.style.display = 'none';
-        }
-    }
-
-    if (allFilled) {
-        document.getElementById('step1').style.display = 'none';
-        document.getElementById('step2').style.display = 'block';
-    }
+  const names = document.querySelectorAll('.person-name');
+  let valid = true;
+  names.forEach(input => {
+    if (!input.value.trim()) valid = false;
+  });
+  if (!valid) return alert(translations[currentLanguage].nameError);
+  document.getElementById('step1').style.display = 'none';
+  document.getElementById('step2and3').style.display = 'block';
+  generateOrderCards();
 }
 
-function goToStep1FromStep2() {
-    document.getElementById('step2').style.display = 'none';
-    document.getElementById('step1').style.display = 'block';
-}
-
-function goToStep3() {
-    const totalOrder = document.getElementById('total-order').value;
-    const subTotal = document.getElementById('sub-total').value;
-
-    let allFilled = true;
-
-    if (totalOrder.trim() === '') {
-        document.getElementById('total-order').classList.add('error');
-        document.getElementById('total-order-error').style.display = 'block';
-        allFilled = false;
-    } else {
-        document.getElementById('total-order').classList.remove('error');
-        document.getElementById('total-order-error').style.display = 'none';
-    }
-
-    if (subTotal.trim() === '') {
-        document.getElementById('sub-total').classList.add('error');
-        document.getElementById('sub-total-error').style.display = 'block';
-        allFilled = false;
-    } else {
-        document.getElementById('sub-total').classList.remove('error');
-        document.getElementById('sub-total-error').style.display = 'none';
-    }
-
-    if (allFilled && parseFloat(totalOrder) >= parseFloat(subTotal)) {
-        document.getElementById('step2').style.display = 'none';
-        document.getElementById('step3').style.display = 'block';
-
-        const nameInputs = document.getElementsByClassName('person-name');
-        const names = [];
-        for (let input of nameInputs) {
-            if (input.value) {
-                names.push(input.value);
-            }
-        }
-
-        const cardsContainer = document.getElementById('cards-container');
-        cardsContainer.innerHTML = '';
-        names.forEach(name => {
-            const card = document.createElement('div');
-            card.classList.add('card');
-            card.innerHTML = `
-                <div class="card-header">${name}</div>
-                <div class="card-content-container">
-                    <div class="card-content">
-                        <span>${translations[currentLanguage].orderValueLabel2} 1:</span>
-                        <input type="number" class="order-value" step="0.01" required>
-                    </div>
-                </div>
-                <div class="card-controls">
-                    <button onclick="addOrderValue(this)">+</button>
-                    <button onclick="removeOrderValue(this)">-</button>
-                </div>
-            `;
-            cardsContainer.appendChild(card);
-        });
-    } else if (allFilled) {
-        alert('Please enter valid total order and sub-total values.');
-    }
-}
-
-function goToStep2FromStep3() {
-    document.getElementById('step3').style.display = 'none';
-    document.getElementById('step2').style.display = 'block';
-}
-
-function goToStep3FromResults() {
-    document.getElementById('result').style.display = 'none';
-    document.getElementById('step3').style.display = 'block';
+function generateOrderCards() {
+  const names = [...document.querySelectorAll('.person-name')].map(input => input.value.trim());
+  const container = document.getElementById('cards-container');
+  container.innerHTML = '';
+  names.forEach(name => {
+    const card = document.createElement('div');
+    card.classList.add('card');
+    card.innerHTML = `
+      <div class="card-header">${name}</div>
+      <div class="card-content-container">
+        <div class="card-content">
+          <span>${translations[currentLanguage].order} 1:</span>
+          <input type="number" class="order-value" oninput="updateSubtotal(this)">
+        </div>
+      </div>
+      <div class="card-controls">
+        <button onclick="addOrderValue(this)">+</button>
+        <button onclick="removeOrderValue(this)">-</button>
+      </div>
+      <div class="card-total"><span class="person-subtotal-label">${translations[currentLanguage].totalWithoutVAT}: 0.00</span></div>
+    `;
+    container.appendChild(card);
+  });
 }
 
 function addOrderValue(button) {
-    const cardContentContainer = button.closest('.card').querySelector('.card-content-container');
-    const orderValuesCount = cardContentContainer.children.length + 1;
-    const newContent = document.createElement('div');
-    newContent.classList.add('card-content');
-    newContent.innerHTML = `
-        <span>${translations[currentLanguage].orderValueLabel2} ${orderValuesCount}:</span>
-        <input type="number" class="order-value" step="0.01" required>
-    `;
-    cardContentContainer.appendChild(newContent);
+  const container = button.closest('.card').querySelector('.card-content-container');
+  const count = container.children.length + 1;
+  const div = document.createElement('div');
+  div.classList.add('card-content');
+  div.innerHTML = `<span>${translations[currentLanguage].order} ${count}:</span>
+    <input type="number" class="order-value" oninput="updateSubtotal(this)">`;
+  container.appendChild(div);
 }
 
 function removeOrderValue(button) {
-    const cardContentContainer = button.closest('.card').querySelector('.card-content-container');
-    if (cardContentContainer.children.length > 1) {
-        cardContentContainer.removeChild(cardContentContainer.lastChild);
-    }
+  const container = button.closest('.card').querySelector('.card-content-container');
+  if (container.children.length > 1) container.removeChild(container.lastChild);
+}
+
+function updateSubtotal(input) {
+  const card = input.closest('.card');
+  const values = [...card.querySelectorAll('.order-value')].map(i => parseFloat(i.value) || 0);
+  const total = values.reduce((a, b) => a + b, 0);
+  card.querySelector('.person-subtotal-label').innerText = `${translations[currentLanguage].totalWithoutVAT}: ${total.toFixed(2)}`;
 }
 
 function calculateVAT() {
-    const totalOrder = parseFloat(document.getElementById('total-order').value);
-    const subTotal = parseFloat(document.getElementById('sub-total').value);
-    const vat = totalOrder - subTotal;
-    const cardsContainer = document.getElementById('cards-container');
-    const cards = cardsContainer.getElementsByClassName('card');
-    const names = Array.from(cards).map(card => card.querySelector('.card-header').innerText);
-    const orderValues = Array.from(cards).map(card => 
-        Array.from(card.querySelectorAll('.order-value')).map(input => parseFloat(input.value) || 0)
-    );
+  const totalOrder = parseFloat(document.getElementById('total-order').value);
+  const subTotal = parseFloat(document.getElementById('sub-total').value);
+  const vat = totalOrder - subTotal;
 
-    const orderTotals = orderValues.map(values => values.reduce((acc, cur) => acc + cur, 0));
-    const totalOrderValue = orderTotals.reduce((acc, cur) => acc + cur, 0);
+  const cards = document.querySelectorAll('#cards-container .card');
+  const results = document.getElementById('result-cards-container');
+  results.innerHTML = '';
 
-    if (Math.abs(totalOrderValue - subTotal) > 2) {
-        alert(translations[currentLanguage].mismatchError);
-        return;
-    }
+  const totals = [];
+  cards.forEach(card => {
+    const name = card.querySelector('.card-header').innerText;
+    const values = [...card.querySelectorAll('.order-value')].map(i => parseFloat(i.value) || 0);
+    const sum = values.reduce((a, b) => a + b, 0);
+    totals.push({ name, sum });
+  });
 
-    const resultCardsContainer = document.getElementById('result-cards-container');
-    resultCardsContainer.innerHTML = '';
-    orderTotals.forEach((orderValue, index) => {
-        const percentage = orderValue / totalOrderValue;
-        const vatShare = percentage * vat;
-        const totalToPay = Math.round(orderValue + vatShare);
-        const card = document.createElement('div');
-        card.classList.add('card');
-        card.innerHTML = `
-            <div class="card-header">${names[index]}</div>
-            <div class="card-content">
-                <span>${translations[currentLanguage].orderValueLabel}:</span> ${orderValue.toFixed(2)}
-            </div>
-            <div class="card-content">
-                <span>${translations[currentLanguage].vatLabel}:</span> ${vatShare.toFixed(2)}
-            </div>
-            <div class="card-content total-to-pay">
-                <span>${translations[currentLanguage].totalToPayLabel}:</span> ${totalToPay.toFixed(2)}
-            </div>
-        `;
-        resultCardsContainer.appendChild(card);
-    });
-    document.getElementById('step3').style.display = 'none';
-    document.getElementById('result').style.display = 'block';
+  const checkSum = totals.reduce((a, b) => a + b.sum, 0);
+  if (Math.abs(checkSum - subTotal) > 2) return alert(translations[currentLanguage].mismatchError);
+
+  totals.forEach(({ name, sum }) => {
+    const percent = sum / checkSum;
+    const vatShare = vat * percent;
+    const totalPay = Math.round(sum + vatShare);
+    const card = document.createElement('div');
+    card.classList.add('card');
+    card.innerHTML = `
+      <div class="card-header">${name}</div>
+      <div class="card-content">${translations[currentLanguage].order}: ${sum.toFixed(2)}</div>
+      <div class="card-content">${translations[currentLanguage].vat}: ${vatShare.toFixed(2)}</div>
+      <div class="card-content total-to-pay"><strong>${translations[currentLanguage].totalToPay}: ${totalPay.toFixed(2)}</strong></div>
+      <button onclick="shareCard(this)">📤</button>
+    `;
+    results.appendChild(card);
+  });
+
+  document.getElementById('step2and3').style.display = 'none';
+  document.getElementById('result').style.display = 'block';
+}
+
+function shareCard(btn) {
+  const card = btn.closest('.card');
+  html2canvas(card).then(canvas => {
+    const link = document.createElement('a');
+    link.download = "card.png";
+    link.href = canvas.toDataURL();
+    link.click();
+  });
+}
+
+function shareFullResult() {
+  const resultContainer = document.getElementById('result-cards-container');
+  html2canvas(resultContainer).then(canvas => {
+    const link = document.createElement('a');
+    link.download = "full-results.png";
+    link.href = canvas.toDataURL();
+    link.click();
+  });
+}
+
+function goToStep2() {
+  document.getElementById('result').style.display = 'none';
+  document.getElementById('step2and3').style.display = 'block';
+}
+
+function goBackToStep1() {
+  document.getElementById('step2and3').style.display = 'none';
+  document.getElementById('step1').style.display = 'block';
 }
 
 function startAgain() {
-    document.getElementById('num-people').value = '';
-    document.getElementById('total-order').value = '';
-    document.getElementById('sub-total').value = '';
-    document.getElementById('names-form').innerHTML = '';
-    document.getElementById('cards-container').innerHTML = '';
-    document.getElementById('result-cards-container').innerHTML = '';
-    document.getElementById('result').style.display = 'none';
-    document.getElementById('step1').style.display = 'block';
-    document.getElementById('next-button').style.display = 'none';
+  location.reload();
 }
 
-function openFacebook(event) {
-    event.preventDefault();
-    const facebookAppUrl = "fb://profile/ahmed.joo";
-    const facebookWebUrl = "https://facebook.com/ahmed.joo";
-
-    // Attempt to open the Facebook app
-    window.location.href = facebookAppUrl;
-
-    // If the Facebook app is not installed, fall back to the web URL
-    setTimeout(() => {
-        window.location.href = facebookWebUrl;
-    }, 1000);
+function openFacebook(e) {
+  e.preventDefault();
+  window.location.href = "fb://profile/ahmed.joo";
+  setTimeout(() => {
+    window.location.href = "https://facebook.com/ahmed.joo";
+  }, 1000);
 }
+
+window.onload = () => setLanguage(currentLanguage);
