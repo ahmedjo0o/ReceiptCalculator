@@ -208,7 +208,7 @@ function calculateVAT() {
       <div class="card-header">${name}</div>
       <div class="card-content">${translations[currentLanguage].order}: ${sum.toFixed(2)}</div>
       <div class="card-content">${translations[currentLanguage].vat}: ${vatShare.toFixed(2)}</div>
-      <div class="card-content">${translations[currentLanguage].discount.replace(/\s*\(.*\)/, '')}: -${discountShare.toFixed(2)}</div>
+      <div class="card-content">${translations[currentLanguage].discount.replace(/\s*\(.*\)/, '')} ${discountShare.toFixed(2)}</div>
       <div class="card-content total-to-pay"><strong>${translations[currentLanguage].totalToPay}: ${totalPay.toFixed(2)}</strong></div>
 	  <button class="share-button" onclick="shareCard(this)">
 		<svg xmlns="http://www.w3.org/2000/svg" height="16" viewBox="0 0 24 24" width="16">
@@ -280,14 +280,6 @@ function goBackToStep1() {
 function startAgain() {
   const message = currentLanguage === 'ar' ? 'البدء من جديد؟' : 'Start again?';
   if (confirm(message)) location.reload();
-}
-
-function openFacebook(e) {
-  e.preventDefault();
-  window.location.href = "fb://profile/ahmed.joo";
-  setTimeout(() => {
-    window.location.href = "https://facebook.com/ahmed.joo";
-  }, 1000);
 }
 
 window.onload = () => {
