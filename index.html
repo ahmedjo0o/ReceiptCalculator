@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -20,7 +20,7 @@
     <div id="app-content">
       <h1 id="app-title" class="centered-title">احسب فاتورتك مع أصدقائك</h1>
 
-      <!-- Step 1 -->
+      <!-- Step 1: Number of People and Names -->
       <div id="step1">
         <label for="num-people" style="margin-top: 10px;"><span id="label-num-people">عدد الأشخاص:</span></label>
         <input type="number" id="num-people" min="1" required style="margin-bottom: 10px;" />
@@ -30,21 +30,27 @@
         <button id="next-button" onclick="goToStep2FromStep1()" style="display: none; margin-top: 10px;">التالي</button>
       </div>
 
-      <!-- Step 2 & 3 combined -->
+      <!-- Step 2 & 3: Order Inputs and VAT Calculation -->
       <div id="step2and3" style="display: none; margin-top: 20px;">
-        <label for="total-order"><span id="label-total-order" class="red-label">قيمة الفاتورة:</span></label>
+        <label for="total-order">
+          <span id="label-total-order" class="red-label">قيمة الفاتورة:</span>
+        </label>
         <input type="number" id="total-order" step="0.01" required style="margin-bottom: 10px;" />
         <span id="total-order-error" class="error-message">يرجى ملء هذا الحقل</span>
 
-        <label for="sub-total" style="margin-top: 10px;"><span id="label-sub-total" class="red-label">قيمة الطلبات بدون ضريبة:</span></label>
+        <label for="sub-total" style="margin-top: 10px;">
+          <span id="label-sub-total" class="red-label">قيمة الطلبات بدون ضريبة:</span>
+        </label>
         <input type="number" id="sub-total" step="0.01" required style="margin-bottom: 10px;" />
         <span id="sub-total-error" class="error-message">يرجى ملء هذا الحقل</span>
-		
-		<label for="discount" style="margin-top: 10px;"><span id="label-discount">الخصم على الفاتورة (اختياري):</span></label>
-		<input type="number" id="discount" step="0.01" style="margin-bottom: 10px;" />
+
+        <label for="discount" style="margin-top: 10px;">
+          <span id="label-discount">الخصم على الفاتورة (اختياري):</span>
+        </label>
+        <input type="number" id="discount" step="0.01" style="margin-bottom: 10px;" />
 
         <div id="cards-container" class="cards-container" style="margin-top: 15px;"></div>
-		<button onclick="goBackToStep1()" id="back-to-step1-button" style="margin-top: 10px;">السابق</button>
+        <button onclick="goBackToStep1()" id="back-to-step1-button" style="margin-top: 10px;">السابق</button>
         <button onclick="calculateVAT()" id="calculate-button" style="margin-top: 10px; margin-bottom: 20px;">احسب</button>
       </div>
 
@@ -59,6 +65,7 @@
     </div>
   </div>
 
+  <!-- Footer -->
   <footer>
     <div id="language-select" style="text-align: center; margin-top: 10px; margin-bottom: 20px;">
       <span style="font-size: 20px;">🌐</span>
@@ -67,15 +74,19 @@
         <option value="en">English</option>
       </select>
     </div>
-    <p><span id="footer-text">جميع الحقوق محفوظة ©</span>
-    <a href="https://facebook.com/ahmed.joo" target="_blank" onclick="openFacebook(event)">Ahmed Youssef</a></p>
+    <p>
+      <span id="footer-text">جميع الحقوق محفوظة ©</span>
+      <a href="https://facebook.com/ahmed.joo" target="_blank" onclick="openFacebook(event)">Ahmed Youssef</a>
+    </p>
   </footer>
 
   <script src="script.js"></script>
   <script>
     function changeLanguage(lang) {
-      setLanguage(lang);
-	  document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+		localStorage.setItem('preferredLanguage', lang); // ✅ Save to localStorage
+		setLanguage(lang);
+		document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+		document.querySelector('#language-select select').value = lang;
     }
   </script>
 </body>

@@ -1,5 +1,4 @@
-// Updated script.js with full language toggle and dynamic content translation
-let currentLanguage = 'ar';
+let currentLanguage = 'en';
 
 const translations = {
   en: {
@@ -21,7 +20,7 @@ const translations = {
     mismatchError: 'Subtotal mismatch!',
     footerText: 'All rights reserved ©',
     totalWithoutVAT: 'Total without VAT',
-	discount: 'Discount (optional):'
+    discount: 'Discount (optional):'
   },
   ar: {
     appTitle: 'احسب فاتورتك مع أصدقائك',
@@ -42,17 +41,19 @@ const translations = {
     mismatchError: 'المجموع غير مطابق!',
     footerText: 'جميع الحقوق محفوظة ©',
     totalWithoutVAT: 'الإجمالي بدون ضريبة',
-	discount: 'الخصم (اختياري):'
+    discount: 'الخصم (اختياري):'
   }
 };
 
 function setLanguage(lang) {
   currentLanguage = lang;
   const t = translations[lang];
+
   document.getElementById('app-title').innerText = t.appTitle;
   document.getElementById('label-num-people').innerText = t.numPeople;
   document.getElementById('label-total-order').innerText = t.totalOrder;
   document.getElementById('label-sub-total').innerText = t.subTotal;
+  document.getElementById('label-discount').innerText = t.discount;
   document.getElementById('generate-names-button').innerText = t.generateNamesButton;
   document.getElementById('next-button').innerText = t.nextButton;
   document.getElementById('back-to-step1-button').innerText = t.backButton;
@@ -61,23 +62,18 @@ function setLanguage(lang) {
   document.getElementById('results-title').innerText = t.resultsTitle;
   document.getElementById('start-again-button').innerText = t.startAgainButton;
   document.getElementById('footer-text').innerText = t.footerText;
-  document.getElementById('label-discount').innerText = t.discount;
 
-  // 1. Update name labels
-  const nameInputs = document.querySelectorAll('#names-form label');
-  nameInputs.forEach((label, i) => {
+  document.querySelectorAll('#names-form label').forEach((label, i) => {
     label.innerText = `${t.nameLabel} ${i + 1}`;
   });
 
-  // 2. Update order field labels
   document.querySelectorAll('#cards-container .card').forEach(card => {
-    const orderSpans = card.querySelectorAll('.card-content span');
-    orderSpans.forEach((span, i) => {
+    const spans = card.querySelectorAll('.card-content span');
+    spans.forEach((span, i) => {
       span.innerText = `${t.order} ${i + 1}:`;
     });
   });
 
-  // 3. Update results cards
   document.querySelectorAll('#result-cards-container .card').forEach(card => {
     const spans = card.querySelectorAll('.card-content');
     if (spans.length >= 3) {
@@ -87,7 +83,6 @@ function setLanguage(lang) {
     }
   });
 
-  // 4. Update subtotals
   document.querySelectorAll('.person-subtotal-label').forEach(span => {
     const value = span.innerText.split(':')[1];
     span.innerText = `${t.totalWithoutVAT}: ${value}`;
@@ -95,10 +90,11 @@ function setLanguage(lang) {
 }
 
 function generateNames() {
-  const n = document.getElementById('num-people').value;
+  const count = document.getElementById('num-people').value;
   const container = document.getElementById('names-form');
   container.innerHTML = '';
-  for (let i = 1; i <= n; i++) {
+
+  for (let i = 1; i <= count; i++) {
     const label = document.createElement('label');
     label.innerText = `${translations[currentLanguage].nameLabel} ${i}`;
     const input = document.createElement('input');
@@ -108,18 +104,19 @@ function generateNames() {
     container.appendChild(label);
     container.appendChild(input);
   }
+
   document.getElementById('next-button').style.display = 'inline-block';
 }
 
 function goToStep2FromStep1() {
   const names = document.querySelectorAll('.person-name');
-  let valid = true;
-  names.forEach(input => {
-    if (!input.value.trim()) valid = false;
-  });
+  const valid = [...names].every(input => input.value.trim());
+
   if (!valid) return alert(translations[currentLanguage].nameError);
+
   document.getElementById('step1').style.display = 'none';
   document.getElementById('step2and3').style.display = 'block';
+
   generateOrderCards();
 }
 
@@ -127,6 +124,7 @@ function generateOrderCards() {
   const names = [...document.querySelectorAll('.person-name')].map(input => input.value.trim());
   const container = document.getElementById('cards-container');
   container.innerHTML = '';
+
   names.forEach(name => {
     const card = document.createElement('div');
     card.classList.add('card');
@@ -142,7 +140,9 @@ function generateOrderCards() {
         <button onclick="addOrderValue(this)">+</button>
         <button onclick="removeOrderValue(this)">-</button>
       </div>
-      <div class="card-total"><span class="person-subtotal-label">${translations[currentLanguage].totalWithoutVAT}: 0.00</span></div>
+      <div class="card-total">
+        <span class="person-subtotal-label">${translations[currentLanguage].totalWithoutVAT}: 0.00</span>
+      </div>
     `;
     container.appendChild(card);
   });
@@ -167,7 +167,8 @@ function updateSubtotal(input) {
   const card = input.closest('.card');
   const values = [...card.querySelectorAll('.order-value')].map(i => parseFloat(i.value) || 0);
   const total = values.reduce((a, b) => a + b, 0);
-  card.querySelector('.person-subtotal-label').innerText = `${translations[currentLanguage].totalWithoutVAT}: ${total.toFixed(2)}`;
+  card.querySelector('.person-subtotal-label').innerText =
+    `${translations[currentLanguage].totalWithoutVAT}: ${total.toFixed(2)}`;
 }
 
 function calculateVAT() {
@@ -180,30 +181,31 @@ function calculateVAT() {
   const results = document.getElementById('result-cards-container');
   results.innerHTML = '';
 
-  const totals = [];
-  cards.forEach(card => {
+  const totals = [...cards].map(card => {
     const name = card.querySelector('.card-header').innerText;
-    const values = [...card.querySelectorAll('.order-value')].map(i => parseFloat(i.value) || 0);
-    const sum = values.reduce((a, b) => a + b, 0);
-    totals.push({ name, sum });
+    const sum = [...card.querySelectorAll('.order-value')].reduce(
+      (total, input) => total + (parseFloat(input.value) || 0), 0
+    );
+    return { name, sum };
   });
 
   const checkSum = totals.reduce((a, b) => a + b.sum, 0);
-  if (Math.abs(checkSum - subTotal) > 2) return alert(translations[currentLanguage].mismatchError);
+  if (Math.abs(checkSum - subTotal) > 2)
+    return alert(translations[currentLanguage].mismatchError);
 
   totals.forEach(({ name, sum }) => {
     const percent = sum / checkSum;
     const vatShare = vat * percent;
-	const discountShare = discount * percent;
+    const discountShare = discount * percent;
     const totalPay = Math.round(sum + vatShare - discountShare);
-	
+
     const card = document.createElement('div');
     card.classList.add('card');
     card.innerHTML = `
       <div class="card-header">${name}</div>
       <div class="card-content">${translations[currentLanguage].order}: ${sum.toFixed(2)}</div>
       <div class="card-content">${translations[currentLanguage].vat}: ${vatShare.toFixed(2)}</div>
-	  <div class="card-content">${translations[currentLanguage].discount.replace(/\s*\(.*\)/, '')} -${discountShare.toFixed(2)}</div>
+      <div class="card-content">${translations[currentLanguage].discount.replace(/\s*\(.*\)/, '')}: -${discountShare.toFixed(2)}</div>
       <div class="card-content total-to-pay"><strong>${translations[currentLanguage].totalToPay}: ${totalPay.toFixed(2)}</strong></div>
       <button onclick="shareCard(this)"> ➦ </button>
     `;
@@ -217,20 +219,42 @@ function calculateVAT() {
 function shareCard(btn) {
   const card = btn.closest('.card');
   html2canvas(card).then(canvas => {
-    const link = document.createElement('a');
-    link.download = "card.png";
-    link.href = canvas.toDataURL();
-    link.click();
+    canvas.toBlob(blob => {
+      const file = new File([blob], "card.png", { type: "image/png" });
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        navigator.share({
+          files: [file],
+          title: 'Your Bill',
+          text: 'Individual Bill Breakdown'
+        }).catch(console.error);
+      } else {
+        const link = document.createElement('a');
+        link.download = "card.png";
+        link.href = URL.createObjectURL(file);
+        link.click();
+      }
+    });
   });
 }
 
 function shareFullResult() {
   const resultContainer = document.getElementById('result-cards-container');
   html2canvas(resultContainer).then(canvas => {
-    const link = document.createElement('a');
-    link.download = "full-results.png";
-    link.href = canvas.toDataURL();
-    link.click();
+    canvas.toBlob(blob => {
+      const file = new File([blob], "full-results.png", { type: "image/png" });
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        navigator.share({
+          files: [file],
+          title: 'Receipt Results',
+          text: 'Here is the full receipt breakdown'
+        }).catch(console.error);
+      } else {
+        const link = document.createElement('a');
+        link.download = "full-results.png";
+        link.href = URL.createObjectURL(file);
+        link.click();
+      }
+    });
   });
 }
 
@@ -245,12 +269,8 @@ function goBackToStep1() {
 }
 
 function startAgain() {
-  const confirmReset = confirm(currentLanguage === 'ar' 
-    ? 'البدء من جديد؟'  
-    : 'Start again?'); 
-  if (confirmReset) {
-    location.reload();
-  }
+  const message = currentLanguage === 'ar' ? 'البدء من جديد؟' : 'Start again?';
+  if (confirm(message)) location.reload();
 }
 
 function openFacebook(e) {
@@ -262,6 +282,10 @@ function openFacebook(e) {
 }
 
 window.onload = () => {
+  const savedLang = localStorage.getItem('preferredLanguage');
+  currentLanguage = savedLang || currentLanguage;
+
   setLanguage(currentLanguage);
   document.documentElement.dir = currentLanguage === 'ar' ? 'rtl' : 'ltr';
+  document.querySelector('#language-select select').value = currentLanguage;
 };
