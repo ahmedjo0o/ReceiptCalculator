@@ -238,7 +238,12 @@ function goBackToStep1() {
 }
 
 function startAgain() {
-  location.reload();
+  const confirmReset = confirm(currentLanguage === 'ar' 
+    ? 'البدء من جديد؟'  
+    : 'Start again?'); 
+  if (confirmReset) {
+    location.reload();
+  }
 }
 
 function openFacebook(e) {
