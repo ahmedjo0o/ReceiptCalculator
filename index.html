@@ -7,6 +7,48 @@
   <link rel="stylesheet" href="styles.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to bottom right, #f0f0f0, #cfcfcf);
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #page-wrapper {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.8);
+      padding: 30px;
+      border-radius: 16px;
+      max-width: 1000px;
+      margin: 50px auto;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      width: calc(100% - 40px);
+      box-sizing: border-box;
+    }
+
+    footer {
+      background: rgba(255, 255, 255, 0.8);
+      border-top: 1px solid rgba(255, 255, 255, 0.18);
+      font-size: 12px;
+      padding: 10px 0;
+      text-align: center;
+      width: 100%;
+    }
+
     #language-select {
       display: flex;
       justify-content: center;
@@ -16,51 +58,53 @@
   </style>
 </head>
 <body>
-  <div class="container">
-    <div id="app-content">
-      <h1 id="app-title" class="centered-title">احسب فاتورتك مع أصدقائك</h1>
+  <div id="page-wrapper">
+    <div class="container">
+      <div id="app-content">
+        <h1 id="app-title" class="centered-title">احسب فاتورتك مع أصدقائك</h1>
 
-      <!-- Step 1: Number of People and Names -->
-      <div id="step1">
-        <label for="num-people" style="margin-top: 10px;"><span id="label-num-people">عدد الأشخاص:</span></label>
-        <input type="number" id="num-people" min="1" required style="margin-bottom: 10px;" />
-        <span id="num-people-error" class="error-message">يرجى ملء هذا الحقل</span>
-        <button id="generate-names-button" onclick="generateNames()">ابدأ</button>
-        <form id="names-form" class="names-container" style="margin-top: 10px;"></form>
-        <button id="next-button" onclick="goToStep2FromStep1()" style="display: none; margin-top: 10px;">التالي</button>
-      </div>
+        <!-- Step 1: Number of People and Names -->
+        <div id="step1">
+          <label for="num-people" style="margin-top: 10px;"><span id="label-num-people">عدد الأشخاص:</span></label>
+          <input type="number" id="num-people" min="1" required style="margin-bottom: 10px;" />
+          <span id="num-people-error" class="error-message">يرجى ملء هذا الحقل</span>
+          <button id="generate-names-button" onclick="generateNames()">ابدأ</button>
+          <form id="names-form" class="names-container" style="margin-top: 10px;"></form>
+          <button id="next-button" onclick="goToStep2FromStep1()" style="display: none; margin-top: 10px;">التالي</button>
+        </div>
 
-      <!-- Step 2 & 3: Order Inputs and VAT Calculation -->
-      <div id="step2and3" style="display: none; margin-top: 20px;">
-        <label for="total-order">
-          <span id="label-total-order" class="red-label">قيمة الفاتورة:</span>
-        </label>
-        <input type="number" id="total-order" step="0.01" required style="margin-bottom: 10px;" />
-        <span id="total-order-error" class="error-message">يرجى ملء هذا الحقل</span>
+        <!-- Step 2 & 3: Order Inputs and VAT Calculation -->
+        <div id="step2and3" style="display: none; margin-top: 20px;">
+          <label for="total-order">
+            <span id="label-total-order" class="red-label">قيمة الفاتورة:</span>
+          </label>
+          <input type="number" id="total-order" step="0.01" required style="margin-bottom: 10px;" />
+          <span id="total-order-error" class="error-message">يرجى ملء هذا الحقل</span>
 
-        <label for="sub-total" style="margin-top: 10px;">
-          <span id="label-sub-total" class="red-label">قيمة الطلبات بدون ضريبة:</span>
-        </label>
-        <input type="number" id="sub-total" step="0.01" required style="margin-bottom: 10px;" />
-        <span id="sub-total-error" class="error-message">يرجى ملء هذا الحقل</span>
+          <label for="sub-total" style="margin-top: 10px;">
+            <span id="label-sub-total" class="red-label">قيمة الطلبات بدون ضريبة:</span>
+          </label>
+          <input type="number" id="sub-total" step="0.01" required style="margin-bottom: 10px;" />
+          <span id="sub-total-error" class="error-message">يرجى ملء هذا الحقل</span>
 
-        <label for="discount" style="margin-top: 10px;">
-          <span id="label-discount">الخصم على الفاتورة (اختياري):</span>
-        </label>
-        <input type="number" id="discount" step="0.01" style="margin-bottom: 10px;" />
+          <label for="discount" style="margin-top: 10px;">
+            <span id="label-discount">الخصم على الفاتورة (اختياري):</span>
+          </label>
+          <input type="number" id="discount" step="0.01" style="margin-bottom: 10px;" />
 
-        <div id="cards-container" class="cards-container" style="margin-top: 15px;"></div>
-        <button onclick="goBackToStep1()" id="back-to-step1-button" style="margin-top: 10px;">السابق</button>
-        <button onclick="calculateVAT()" id="calculate-button" style="margin-top: 10px; margin-bottom: 20px;">احسب</button>
-      </div>
+          <div id="cards-container" class="cards-container" style="margin-top: 15px;"></div>
+          <button onclick="goBackToStep1()" id="back-to-step1-button" style="margin-top: 10px;">السابق</button>
+          <button onclick="calculateVAT()" id="calculate-button" style="margin-top: 10px; margin-bottom: 20px;">احسب</button>
+        </div>
 
-      <!-- Results -->
-      <div id="result" style="display: none; margin-top: 20px;">
-        <h2 id="results-title">النتائج</h2>
-        <div id="result-cards-container" class="result-cards-container" style="margin-bottom: 10px;"></div>
-        <button onclick="goToStep2()" id="back-to-step3-button">السابق</button>
-        <button onclick="startAgain()" id="start-again-button">احسب مرة اخرى</button>
-        <button onclick="shareFullResult()" id="share-result-button">مشاركة</button>
+        <!-- Results -->
+        <div id="result" style="display: none; margin-top: 20px;">
+          <h2 id="results-title">النتائج</h2>
+          <div id="result-cards-container" class="result-cards-container" style="margin-bottom: 10px;"></div>
+          <button onclick="goToStep2()" id="back-to-step3-button">السابق</button>
+          <button onclick="startAgain()" id="start-again-button">احسب مرة اخرى</button>
+          <button onclick="shareFullResult()" id="share-result-button">مشاركة</button>
+        </div>
       </div>
     </div>
   </div>
@@ -83,10 +127,10 @@
   <script src="script.js"></script>
   <script>
     function changeLanguage(lang) {
-		localStorage.setItem('preferredLanguage', lang); // ✅ Save to localStorage
-		setLanguage(lang);
-		document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
-		document.querySelector('#language-select select').value = lang;
+      localStorage.setItem('preferredLanguage', lang);
+      setLanguage(lang);
+      document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+      document.querySelector('#language-select select').value = lang;
     }
   </script>
 </body>
