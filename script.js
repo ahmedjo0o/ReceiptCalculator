@@ -20,10 +20,11 @@ const translations = {
     nameError: 'Please enter a name',
     mismatchError: 'Subtotal mismatch!',
     footerText: 'All rights reserved ©',
-    totalWithoutVAT: 'Total without VAT'
+    totalWithoutVAT: 'Total without VAT',
+	discount: 'Discount (optional):'
   },
   ar: {
-    appTitle: 'احسب فاتورتك مع صحابك',
+    appTitle: 'احسب فاتورتك مع أصدقائك',
     numPeople: 'عدد الأشخاص:',
     totalOrder: 'إجمالي الفاتورة:',
     subTotal: 'إجمالي الطلبات (بدون ضريبة):',
@@ -33,14 +34,15 @@ const translations = {
     calculateButton: 'احسب',
     resultsTitle: 'النتائج',
     startAgainButton: 'احسب مرة اخرى',
-    order: 'قيمة طلب',
+    order: 'الطلبات',
     vat: 'الضريبة',
     totalToPay: 'الإجمالي',
     nameLabel: 'اسم',
     nameError: 'يرجى ملء هذا الحقل',
     mismatchError: 'المجموع غير مطابق!',
     footerText: 'جميع الحقوق محفوظة ©',
-    totalWithoutVAT: 'الإجمالي بدون ضريبة'
+    totalWithoutVAT: 'الإجمالي بدون ضريبة',
+	discount: 'الخصم (اختياري):'
   }
 };
 
@@ -59,6 +61,7 @@ function setLanguage(lang) {
   document.getElementById('results-title').innerText = t.resultsTitle;
   document.getElementById('start-again-button').innerText = t.startAgainButton;
   document.getElementById('footer-text').innerText = t.footerText;
+  document.getElementById('label-discount').innerText = t.discount;
 
   // 1. Update name labels
   const nameInputs = document.querySelectorAll('#names-form label');
@@ -170,6 +173,7 @@ function updateSubtotal(input) {
 function calculateVAT() {
   const totalOrder = parseFloat(document.getElementById('total-order').value);
   const subTotal = parseFloat(document.getElementById('sub-total').value);
+  const discount = parseFloat(document.getElementById('discount').value) || 0;
   const vat = totalOrder - subTotal;
 
   const cards = document.querySelectorAll('#cards-container .card');
@@ -190,15 +194,18 @@ function calculateVAT() {
   totals.forEach(({ name, sum }) => {
     const percent = sum / checkSum;
     const vatShare = vat * percent;
-    const totalPay = Math.round(sum + vatShare);
+	const discountShare = discount * percent;
+    const totalPay = Math.round(sum + vatShare - discountShare);
+	
     const card = document.createElement('div');
     card.classList.add('card');
     card.innerHTML = `
       <div class="card-header">${name}</div>
       <div class="card-content">${translations[currentLanguage].order}: ${sum.toFixed(2)}</div>
       <div class="card-content">${translations[currentLanguage].vat}: ${vatShare.toFixed(2)}</div>
+	  <div class="card-content">${translations[currentLanguage].discount.replace(/\s*\(.*\)/, '')} -${discountShare.toFixed(2)}</div>
       <div class="card-content total-to-pay"><strong>${translations[currentLanguage].totalToPay}: ${totalPay.toFixed(2)}</strong></div>
-      <button onclick="shareCard(this)">📤</button>
+      <button onclick="shareCard(this)"> ➦ </button>
     `;
     results.appendChild(card);
   });
