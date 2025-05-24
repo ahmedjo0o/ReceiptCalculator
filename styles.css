@@ -8,9 +8,7 @@ body {
     padding: 0;
     color: #333;
     min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: block;
 }
 
 body[dir="rtl"] {
@@ -217,14 +215,11 @@ button:hover {
 /* Footer styles */
 footer {
     text-align: center;
-    padding: 10px 0;
+    padding: 6px 0;
     background: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
     border-top: 1px solid rgba(255, 255, 255, 0.18);
-    position: fixed;
-    bottom: 0;
-    width: 100%;
+	font-size: 12px;
+	margin-top: 40px;
 }
 
 footer p {
