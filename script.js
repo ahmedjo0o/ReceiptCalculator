@@ -12,6 +12,7 @@ const translations = {
     calculateButton: 'Calculate',
     resultsTitle: 'Results',
     startAgainButton: 'Start Again',
+	shareResultButton: 'Share',
     order: 'Order',
     vat: 'VAT',
     totalToPay: 'Total to Pay',
@@ -33,6 +34,7 @@ const translations = {
     calculateButton: 'احسب',
     resultsTitle: 'النتائج',
     startAgainButton: 'احسب مرة اخرى',
+	shareResultButton: 'مشاركة',
     order: 'الطلبات',
     vat: 'الضريبة',
     totalToPay: 'الإجمالي',
@@ -61,6 +63,7 @@ function setLanguage(lang) {
   document.getElementById('calculate-button').innerText = t.calculateButton;
   document.getElementById('results-title').innerText = t.resultsTitle;
   document.getElementById('start-again-button').innerText = t.startAgainButton;
+  document.getElementById('share-result-button').innerText = t.shareResultButton;
   document.getElementById('footer-text').innerText = t.footerText;
 
   document.querySelectorAll('#names-form label').forEach((label, i) => {
@@ -207,7 +210,13 @@ function calculateVAT() {
       <div class="card-content">${translations[currentLanguage].vat}: ${vatShare.toFixed(2)}</div>
       <div class="card-content">${translations[currentLanguage].discount.replace(/\s*\(.*\)/, '')}: -${discountShare.toFixed(2)}</div>
       <div class="card-content total-to-pay"><strong>${translations[currentLanguage].totalToPay}: ${totalPay.toFixed(2)}</strong></div>
-      <button onclick="shareCard(this)"> ➦ </button>
+	  <button class="share-button" onclick="shareCard(this)">
+		<svg xmlns="http://www.w3.org/2000/svg" height="16" viewBox="0 0 24 24" width="16">
+		<path d="M0 0h24v24H0z" fill="none"/>
+		<path fill="currentColor" d="M12 5c-1.1 0-2 .9-2 2H5v10h14V7h-5c0-1.1-.9-2-2-2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 
+		1.34-3 3-3z" />
+		</svg>
+	  </button>
     `;
     results.appendChild(card);
   });
