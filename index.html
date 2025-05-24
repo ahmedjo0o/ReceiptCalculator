@@ -18,7 +18,7 @@
 <body>
   <div class="container">
     <div id="app-content">
-      <h1 id="app-title">احسب فاتورتك مع صحابك</h1>
+      <h1 id="app-title" class="centered-title">احسب فاتورتك مع أصدقائك</h1>
 
       <!-- Step 1 -->
       <div id="step1">
@@ -32,11 +32,11 @@
 
       <!-- Step 2 & 3 combined -->
       <div id="step2and3" style="display: none; margin-top: 20px;">
-        <label for="total-order"><span id="label-total-order">قيمة الفاتورة:</span></label>
+        <label for="total-order"><span id="label-total-order" class="red-label">قيمة الفاتورة:</span></label>
         <input type="number" id="total-order" step="0.01" required style="margin-bottom: 10px;" />
         <span id="total-order-error" class="error-message">يرجى ملء هذا الحقل</span>
 
-        <label for="sub-total" style="margin-top: 10px;"><span id="label-sub-total">قيمة الطلبات بدون ضريبة:</span></label>
+        <label for="sub-total" style="margin-top: 10px;"><span id="label-sub-total" class="red-label">قيمة الطلبات بدون ضريبة:</span></label>
         <input type="number" id="sub-total" step="0.01" required style="margin-bottom: 10px;" />
         <span id="sub-total-error" class="error-message">يرجى ملء هذا الحقل</span>
 
@@ -72,6 +72,7 @@
   <script>
     function changeLanguage(lang) {
       setLanguage(lang);
+	  document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
     }
   </script>
 </body>

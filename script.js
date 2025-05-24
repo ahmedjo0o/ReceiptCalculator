@@ -5,7 +5,7 @@ const translations = {
   en: {
     appTitle: 'Receipt Calculator',
     numPeople: 'Number of People:',
-    totalOrder: 'Total Order Value:',
+    totalOrder: 'Total Receipt Value:',
     subTotal: 'Sub-total:',
     generateNamesButton: 'Go',
     nextButton: 'Next',
@@ -25,8 +25,8 @@ const translations = {
   ar: {
     appTitle: 'احسب فاتورتك مع صحابك',
     numPeople: 'عدد الأشخاص:',
-    totalOrder: 'قيمة الفاتورة:',
-    subTotal: 'قيمة الطلبات بدون ضريبة:',
+    totalOrder: 'إجمالي الفاتورة:',
+    subTotal: 'إجمالي الطلبات (بدون ضريبة):',
     generateNamesButton: 'ابدأ',
     nextButton: 'التالي',
     backButton: 'السابق',
@@ -254,4 +254,7 @@ function openFacebook(e) {
   }, 1000);
 }
 
-window.onload = () => setLanguage(currentLanguage);
+window.onload = () => {
+  setLanguage(currentLanguage);
+  document.documentElement.dir = currentLanguage === 'ar' ? 'rtl' : 'ltr';
+};
